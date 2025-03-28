@@ -15,7 +15,8 @@ NOTION_PROPERTY_MAP = {
     "General Biology": "General Biology",
     "General Psychology": "General Psychology",
     "Music Appreciation": "Music Appreciation",
-    "Principles of Economics-Micro": "Principles of Economics-Micro"
+    "Principles of Economics-Micro": "Principles of Economics-Micro",
+    "Update Batch": "Update Batch"
     # Updated Time is removed as it will be handled by Notion's created_time
 }
 
@@ -32,6 +33,7 @@ NOTION_PROPERTY_TYPES = {
     "General Biology": "number",
     "General Psychology": "number",
     "Music Appreciation": "number",
-    "Principles of Economics-Micro": "number"
+    "Principles of Economics-Micro": "number",
+    "Update Batch": "rich_text"
     # Updated Time is removed as it will be handled by Notion's created_time
 } 

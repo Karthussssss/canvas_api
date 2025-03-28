@@ -5,6 +5,7 @@ from notion_processor.notion_main import main as process_notion
 from config import GRADES_CSV_PATH
 import sys
 import os
+from notion_processor.utils.batch_manager import initialize_batch
 
 # Add the notion_processor directory to the path
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "notion_processor"))
@@ -84,6 +85,10 @@ def main():
     print("\n--- Starting grades collection ---")
     
     try:
+        # Initialize update batch ID for this run
+        batch_id = initialize_batch()
+        print(f"Update Batch ID: {batch_id}")
+        
         # Create credential manager
         manager = CredentialManager()
         

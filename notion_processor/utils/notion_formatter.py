@@ -13,6 +13,7 @@ if parent_dir not in sys.path:
 # Now import from the parent project
 from utils.error_handler import handle_file_error
 from config import COURSE_NAME_TO_CHINESE
+from notion_processor.utils.batch_manager import get_current_batch
 
 class NotionFormatter:
     def __init__(self, input_csv_path: str, output_csv_path: str):
@@ -84,14 +85,17 @@ class NotionFormatter:
             # Reset index to make student names regular columns
             pivot_df = pivot_df.reset_index()
             
-            # Add Updated Time column (will be added to the end by default)
+            # Add Updated Time column
             pivot_df['Updated Time'] = self._get_current_timestamp()
+            
+            # Add Update Batch column
+            pivot_df['Update Batch'] = get_current_batch()
             
             # Save the transformed data to the Notion-friendly CSV
             pivot_df.to_csv(self.output_csv_path, index=False)
             
             print(f"✅ Successfully created Notion-friendly grades file at {self.output_csv_path}")
-            print(f"   Format: {len(pivot_df)} students with {len(pivot_df.columns) - 4} course score columns")
+            print(f"   Format: {len(pivot_df)} students with {len(pivot_df.columns) - 5} course score columns")
             
         except Exception as e:
             handle_file_error(self.output_csv_path, "write", e)
@@ -126,6 +130,9 @@ class NotionFormatter:
             # Get Chinese to English course name mapping
             chinese_to_english = self._get_course_chinese_to_english_map()
             
+            # Get current update batch
+            current_batch = get_current_batch()
+            
             # Prepare the new data
             new_data = []
             
@@ -150,6 +157,9 @@ class NotionFormatter:
                 
                 # Add the Updated Time (will be moved to the end later)
                 row['Updated Time'] = latest_fetch_times[student_name].strftime("%Y-%m-%d %H:%M:%S")
+                
+                # Add the Update Batch
+                row['Update Batch'] = current_batch
                 
                 new_data.append(row)
             
@@ -183,7 +193,7 @@ class NotionFormatter:
                     
                     # Make sure the new DataFrame has all columns from the existing DataFrame
                     for col in existing_df.columns:
-                        if col not in new_df.columns and col not in ['student_name', 'student_chinese_name', 'student_english_name', 'Updated Time']:
+                        if col not in new_df.columns and col not in ['student_name', 'student_chinese_name', 'student_english_name', 'Updated Time', 'Update Batch']:
                             new_df[col] = "N/A"
                     
                     # IMPORTANT: Remove duplicates from existing data before concatenating
@@ -198,6 +208,11 @@ class NotionFormatter:
                     if 'Updated Time' in combined_df.columns:
                         updated_time = combined_df.pop('Updated Time')
                         combined_df['Updated Time'] = updated_time
+                        
+                    # Move the Update Batch column to the end
+                    if 'Update Batch' in combined_df.columns:
+                        update_batch = combined_df.pop('Update Batch')
+                        combined_df['Update Batch'] = update_batch
                     
                     # Save the combined data
                     combined_df.to_csv(self.output_csv_path, index=False)
@@ -212,19 +227,29 @@ class NotionFormatter:
                         updated_time = new_df.pop('Updated Time')
                         new_df['Updated Time'] = updated_time
                         
+                    # Move the Update Batch column to the end
+                    if 'Update Batch' in new_df.columns:
+                        update_batch = new_df.pop('Update Batch')
+                        new_df['Update Batch'] = update_batch
+                        
                     new_df.to_csv(self.output_csv_path, index=False)
             else:
                 # Move the Updated Time column to the end
                 if 'Updated Time' in new_df.columns:
                     updated_time = new_df.pop('Updated Time')
                     new_df['Updated Time'] = updated_time
+                    
+                # Move the Update Batch column to the end
+                if 'Update Batch' in new_df.columns:
+                    update_batch = new_df.pop('Update Batch')
+                    new_df['Update Batch'] = update_batch
                 
                 # Save as a new file
                 new_df.to_csv(self.output_csv_path, index=False)
                 print(f"✅ Successfully created new Notion grades file at {self.output_csv_path}")
                 
-            # Count the number of course columns (excluding the 4 student info columns)
-            course_columns = [col for col in new_df.columns if col not in ['student_name', 'student_chinese_name', 'student_english_name', 'Updated Time']]
+            # Count the number of course columns (excluding the 5 metadata columns)
+            course_columns = [col for col in new_df.columns if col not in ['student_name', 'student_chinese_name', 'student_english_name', 'Updated Time', 'Update Batch']]
             print(f"   Format: {len(new_df)} students with {len(course_columns)} course score columns")
             
         except Exception as e:
