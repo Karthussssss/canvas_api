@@ -1,0 +1,6 @@
+2025-03-27 16:33:31,476 - canvas_api - ERROR - Credential error for student system: Expecting value: line 1 column 1 (char 0)
+2025-03-27 16:33:51,302 - canvas_api - ERROR - Credential error for student system: Expecting value: line 1 column 1 (char 0)
+2025-03-27 16:38:19,945 - canvas_api - ERROR - API error for student Jiang Chenghao at endpoint courses/37046/enrollments: API returned status code: 403
+2025-03-27 16:38:19,946 - canvas_api - ERROR - API error for student Jiang Chenghao at endpoint courses/37046/enrollments: Failed to connect to Canvas API for student Jiang Chenghao: API returned status code: 403
+2025-03-27 16:38:23,168 - canvas_api - ERROR - API error for student Wu Haoming at endpoint courses/37046/enrollments: API returned status code: 403
+2025-03-27 16:38:23,168 - canvas_api - ERROR - API error for student Wu Haoming at endpoint courses/37046/enrollments: Failed to connect to Canvas API for student Wu Haoming: API returned status code: 403
