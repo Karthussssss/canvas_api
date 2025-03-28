@@ -3,6 +3,13 @@ Notion Processor Package
 A package to handle the processing and formatting of data for Notion integration
 """
 
-from .notion_main import process_for_notion
+import os
+import sys
 
-__all__ = ['process_for_notion'] 
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+
+from .notion_main import main
+
+__all__ = ['main'] 

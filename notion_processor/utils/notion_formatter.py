@@ -34,6 +34,19 @@ class NotionFormatter:
         """Get all possible course names in Chinese from the config"""
         return list(COURSE_NAME_TO_CHINESE.values())
 
+    def _get_course_chinese_to_english_map(self) -> Dict[str, str]:
+        """Create a mapping from Chinese course names to English"""
+        english_to_chinese = COURSE_NAME_TO_CHINESE
+        chinese_to_english = {}
+        
+        # Create reverse mapping
+        for english, chinese in english_to_chinese.items():
+            # Extract the course name without the course code and semester info
+            simplified_english = english.split(" - ")[0].strip()
+            chinese_to_english[chinese] = simplified_english
+            
+        return chinese_to_english
+        
     def transform_grades_for_notion(self) -> None:
         """Transform grades data into Notion-friendly format"""
         try:
@@ -108,7 +121,10 @@ class NotionFormatter:
             latest_fetch_times = latest_grades.groupby('student_name')['fetch_time'].max()
             
             # Get all possible course names from config
-            all_courses = self._get_all_possible_courses()
+            all_courses_chinese = self._get_all_possible_courses()
+            
+            # Get Chinese to English course name mapping
+            chinese_to_english = self._get_course_chinese_to_english_map()
             
             # Prepare the new data
             new_data = []
@@ -122,15 +138,17 @@ class NotionFormatter:
                 }
                 
                 # Initialize all course columns with None or N/A
-                for course_name in all_courses:
-                    row[course_name] = "N/A"
+                for course_name_chinese in all_courses_chinese:
+                    course_name_english = chinese_to_english.get(course_name_chinese, course_name_chinese)
+                    row[course_name_english] = "N/A"
                 
                 # Add each course's score (without grade) for courses the student is enrolled in
                 for _, course_row in group.iterrows():
-                    course_name = course_row['course_name_chinese']
-                    row[course_name] = course_row['score']
+                    course_name_chinese = course_row['course_name_chinese']
+                    course_name_english = chinese_to_english.get(course_name_chinese, course_name_chinese)
+                    row[course_name_english] = course_row['score']
                 
-                # Add the Updated Time as the last column (will be added at the end)
+                # Add the Updated Time (will be moved to the end later)
                 row['Updated Time'] = latest_fetch_times[student_name].strftime("%Y-%m-%d %H:%M:%S")
                 
                 new_data.append(row)
@@ -148,18 +166,38 @@ class NotionFormatter:
                     if "未知课程" in existing_df.columns:
                         existing_df = existing_df.drop(columns=["未知课程"])
                     
-                    # Make sure the existing DataFrame has all course columns
-                    for course in all_courses:
-                        if course not in existing_df.columns:
-                            existing_df[course] = "N/A"
+                    # Remove any Chinese column names and replace with English
+                    columns_to_drop = []
+                    for col in existing_df.columns:
+                        if col in all_courses_chinese:
+                            columns_to_drop.append(col)
+                    
+                    if columns_to_drop:
+                        existing_df = existing_df.drop(columns=columns_to_drop)
+                    
+                    # Make sure the existing DataFrame has all course columns (in English)
+                    for course_chinese in all_courses_chinese:
+                        course_english = chinese_to_english.get(course_chinese, course_chinese)
+                        if course_english not in existing_df.columns:
+                            existing_df[course_english] = "N/A"
                     
                     # Make sure the new DataFrame has all columns from the existing DataFrame
                     for col in existing_df.columns:
                         if col not in new_df.columns and col not in ['student_name', 'student_chinese_name', 'student_english_name', 'Updated Time']:
                             new_df[col] = "N/A"
                     
+                    # IMPORTANT: Remove duplicates from existing data before concatenating
+                    # Remove existing entries for students that are in new_df to avoid duplication
+                    students_to_update = new_df['student_name'].unique()
+                    existing_df = existing_df[~existing_df['student_name'].isin(students_to_update)]
+                    
                     # Append new data to existing data
                     combined_df = pd.concat([existing_df, new_df], ignore_index=True)
+                    
+                    # Move the Updated Time column to the end
+                    if 'Updated Time' in combined_df.columns:
+                        updated_time = combined_df.pop('Updated Time')
+                        combined_df['Updated Time'] = updated_time
                     
                     # Save the combined data
                     combined_df.to_csv(self.output_csv_path, index=False)
@@ -168,8 +206,19 @@ class NotionFormatter:
                     print(f"   Added {len(new_df)} records to existing {len(existing_df)} records")
                 except Exception as e:
                     print(f"⚠️ Error reading existing file, creating new one: {str(e)}")
+                    
+                    # Move the Updated Time column to the end for the new DataFrame
+                    if 'Updated Time' in new_df.columns:
+                        updated_time = new_df.pop('Updated Time')
+                        new_df['Updated Time'] = updated_time
+                        
                     new_df.to_csv(self.output_csv_path, index=False)
             else:
+                # Move the Updated Time column to the end
+                if 'Updated Time' in new_df.columns:
+                    updated_time = new_df.pop('Updated Time')
+                    new_df['Updated Time'] = updated_time
+                
                 # Save as a new file
                 new_df.to_csv(self.output_csv_path, index=False)
                 print(f"✅ Successfully created new Notion grades file at {self.output_csv_path}")

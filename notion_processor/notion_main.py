@@ -6,34 +6,43 @@ Handles the formatting and exporting of Canvas data to Notion-compatible formats
 
 import os
 import sys
+from pathlib import Path
 
-# Add parent directory to sys.path to import from the project root
-parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Add the parent directory to the sys.path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
 if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
 
-# Import the modules we need
-from config import GRADES_CSV_PATH, NOTION_GRADES_CSV_PATH
 from notion_processor.utils.notion_formatter import NotionFormatter
+from notion_processor.utils.notion_api.client import NotionClient
 
-def process_for_notion():
-    """Format and prepare data for Notion"""
+def main():
+    """Main function to process grades data for Notion."""
     print("\n--- Starting Notion data processing ---")
     
-    # Check if input file exists
-    if not os.path.exists(GRADES_CSV_PATH):
-        print(f"❌ Error: Input file {GRADES_CSV_PATH} not found")
-        return False
+    # Define file paths
+    input_csv_path = os.path.join(parent_dir, "data", "grades.csv")
+    output_csv_path = os.path.join(current_dir, "data", "notion_grades.csv")
     
-    # Create Notion formatter
-    formatter = NotionFormatter(GRADES_CSV_PATH, NOTION_GRADES_CSV_PATH)
+    # Ensure output directory exists
+    os.makedirs(os.path.dirname(output_csv_path), exist_ok=True)
     
     # Transform grades data to Notion format
     print("Transforming grades data to Notion format...")
+    formatter = NotionFormatter(input_csv_path, output_csv_path)
     formatter.transform_long_to_wide()
     
+    # Upload to Notion
+    try:
+        print("Appending data to Notion database...")
+        notion_client = NotionClient()
+        affected_count = notion_client.update_student_records(output_csv_path)
+        print(f"✅ Successfully appended {affected_count} records to Notion database")
+    except Exception as e:
+        print(f"⚠️ Error uploading to Notion: {str(e)}")
+    
     print("--- Notion data processing completed ---\n")
-    return True
 
 if __name__ == "__main__":
-    process_for_notion() 
+    main() 
