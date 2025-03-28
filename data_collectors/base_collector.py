@@ -17,6 +17,10 @@ class BaseCollector(ABC):
         """Make a request to Canvas API matching canvas_grade.py"""
         url = f"{self.base_url}/{endpoint}"
         try:
+            print(f"Making API request to: {url}")
+            if params:
+                print(f"With parameters: {params}")
+            
             response = requests.get(url, headers=self.headers, params=params)
             
             if response.status_code == 200:

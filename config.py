@@ -97,6 +97,9 @@ STUDENT_TO_CHINESE_NAME, STUDENT_TO_PREFERRED_ENGLISH_NAME = build_student_mappi
 # Course Mappings (from canvas_grade.py)
 COURSE_NAME_TO_CHINESE = {
     "Calculus 3A - S9723 (2025S-MATH-3A)": "微积分 3A",
+    "Calculus 3B - S9724 (2025S-MATH-3B)": "微积分 3B",
+    "Introduction to Statistics - S9725 (2025S-MATH-14)": "统计学导论",
+    "Precalculus - S9721 (2025S-MATH-2)": "预微积分",
     "General Biology - S9768 (2025S-BIOL-10)": "生物学",
     "General Psychology - S9987 (2025S-PSYC-1A)": "心理学",
     "Music Appreciation - S8262 (2025S-MUS-10)": "音乐鉴赏",
@@ -133,3 +136,4 @@ def convert_score_to_grade(score):
 # CSV File Configuration
 GRADES_CSV_PATH = os.path.join("data", "grades.csv")
 ASSIGNMENTS_CSV_PATH = os.path.join("data", "assignments.csv")
+NOTION_GRADES_CSV_PATH = os.path.join("notion_processor", "data", "notion_grades.csv")

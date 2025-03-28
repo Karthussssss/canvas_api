@@ -8,7 +8,7 @@ We will mainly focus on 2 datasets:
 1. ALL student's currently enrolled courses' scores.
 2. ALL student's currently enrolled courses' assignment status (submitted, graded, late, etc.).
 
-Then we will use these data to update the database in CSV format for later use and visualization.
+Then we will use these data to update the database in CSV format for later use and visualization. The data is also prepared in a Notion-friendly format for integration with Notion databases.
 
 ### Dataset 1: Scores
 
@@ -56,42 +56,45 @@ This makes sure there is only one record for each assignment and avoids duplicat
    ```
    pip install -r requirements.txt
    ```
-4. Configure your Canvas API credentials in `config.py` (see Configuration section)
+4. Configure your Canvas API credentials in `credentials.json` (see Security Considerations section)
 
 ## Project Structure
 
 ```
 canvas_api/
-├── main.py               # Main entry point
-├── config.py             # Configuration settings and mappings
-├── canvas_client.py      # Canvas API client class
+├── main.py                   # Main entry point
+├── config.py                 # Configuration settings and mappings
+├── update_user_ids.py        # Utility for updating user IDs in credentials
 ├── data_collectors/
 │   ├── __init__.py
-│   ├── base_collector.py # Base class for collectors
-│   ├── grades.py         # Collects course grades
-│   └── assignments.py    # Collects assignment data
-├── models/
+│   ├── base_collector.py     # Base class for collectors
+│   └── grades.py             # Collects course grades
+├── notion_processor/
 │   ├── __init__.py
-│   ├── course.py         # Course data model
-│   ├── assignment.py     # Assignment data model
-│   └── student.py        # Student data model
+│   ├── notion_main.py        # Main entry point for Notion processing
+│   ├── data/                 # Notion-specific data files
+│   │   └── notion_grades.csv # Notion-friendly formatted grades
+│   └── utils/
+│       ├── __init__.py
+│       └── notion_formatter.py # Formats data for Notion compatibility
 ├── utils/
 │   ├── __init__.py
-│   ├── csv_handler.py    # CSV file operations
-│   └── error_handler.py  # Error handling utilities
-└── data/                 # Directory for storing data files
-    ├── grades.csv
-    └── assignments.csv
+│   ├── credential_manager.py # Manages student credentials
+│   ├── csv_handler.py        # CSV file operations
+│   └── error_handler.py      # Error handling utilities
+└── data/                     # Directory for storing data files
+    ├── grades.csv            # Raw grades data
+    └── assignments.csv       # Raw assignments data
 ```
 
 ## Configuration & Mappings
 
 All configurations and mappings are stored in `config.py`:
 
-1. Canvas API configuration:
-   - API_KEY
-   - DOMAIN
-   - USER_ID
+1. File paths:
+   - GRADES_CSV_PATH
+   - ASSIGNMENTS_CSV_PATH
+   - NOTION_GRADES_CSV_PATH
 
 2. Data Mappings:
    - Student Name to Chinese Name
@@ -110,6 +113,23 @@ Data is stored in CSV format for easy access and development:
 2. `data/assignments.csv`: Contains all collected assignment data
    - Format: Student Name, Chinese Name, English Name, Course Name, Chinese Course Name, Academic Support, Assignment Name, Assignment ID, Due Date, Submission Time, Full Mark, Student Score, Status, Fetch Time
 
+3. `notion_processor/data/notion_grades.csv`: Contains grades data formatted for Notion
+   - Format: Student Name, Chinese Name, English Name, [All Course Columns], Updated Time
+
+## Notion Integration
+
+The project includes a dedicated Notion processor module that:
+
+1. Reads data from the standard grades CSV
+2. Transforms it into a Notion-friendly format:
+   - Student information as rows
+   - Course names as columns
+   - Latest grades as values
+   - All possible courses included, even if a student isn't enrolled
+3. Automatically updates the Notion CSV each time the main script runs
+
+This formatted data can be easily imported into a Notion database or used with the Notion API.
+
 ## Error Handling
 
 The application implements comprehensive error handling:
@@ -119,7 +139,7 @@ The application implements comprehensive error handling:
 3. Data Processing Errors: Log specific data processing failures
 4. File I/O Errors: Handle CSV file read/write exceptions
 
-All errors are raised with descriptive messages to help troubleshoot issues.
+All errors are raised with descriptive messages to help troubleshoot issues and logged to `canvas_api.log`.
 
 ## Security Considerations
 
@@ -141,12 +161,18 @@ The credentials.json file uses a format where each student has their own section
   "student1": {
     "api_key": "student1_canvas_api_key",
     "domain": "canvas_domain",
-    "user_id": 123456
+    "user_id": 123456,
+    "student_name": "Canvas Display Name",
+    "student_chinese_name": "中文名",
+    "student_english_name": "Preferred English Name"
   },
   "student2": {
     "api_key": "student2_canvas_api_key",
     "domain": "canvas_domain",
-    "user_id": 789012
+    "user_id": 789012,
+    "student_name": "Canvas Display Name",
+    "student_chinese_name": "中文名",
+    "student_english_name": "Preferred English Name"
   }
 }
 ```
@@ -168,6 +194,10 @@ Required Python packages:
 - python-dateutil==2.8.2
 - pandas==1.5.0
 
-Future phase:
-- Later phases will include integration with Lark and Notion via their APIs
+## Future Enhancements
+
+- Direct integration with Notion API to update Notion databases
+- Assignment data collection and processing
+- Integration with Lark workspace via API
+- Email notification system for grade updates
 

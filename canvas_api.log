@@ -4,3 +4,9 @@
 2025-03-27 16:38:19,946 - canvas_api - ERROR - API error for student Jiang Chenghao at endpoint courses/37046/enrollments: Failed to connect to Canvas API for student Jiang Chenghao: API returned status code: 403
 2025-03-27 16:38:23,168 - canvas_api - ERROR - API error for student Wu Haoming at endpoint courses/37046/enrollments: API returned status code: 403
 2025-03-27 16:38:23,168 - canvas_api - ERROR - API error for student Wu Haoming at endpoint courses/37046/enrollments: Failed to connect to Canvas API for student Wu Haoming: API returned status code: 403
+2025-03-28 14:25:43,790 - canvas_api - ERROR - API error for student Feng Linquan at endpoint profile: API returned status code: 401
+2025-03-28 14:25:43,791 - canvas_api - ERROR - API error for student Feng Linquan at endpoint profile: Failed to connect to Canvas API for student Feng Linquan: API returned status code: 401
+2025-03-28 14:26:06,145 - canvas_api - ERROR - API error for student Feng Linquan at endpoint profile: API returned status code: 401
+2025-03-28 14:26:06,147 - canvas_api - ERROR - API error for student Feng Linquan at endpoint profile: Failed to connect to Canvas API for student Feng Linquan: API returned status code: 401
+2025-03-28 14:31:29,056 - canvas_api - ERROR - API error for student Feng Linquan at endpoint profile: API returned status code: 401
+2025-03-28 14:31:29,058 - canvas_api - ERROR - API error for student Feng Linquan at endpoint profile: Failed to connect to Canvas API for student Feng Linquan: API returned status code: 401

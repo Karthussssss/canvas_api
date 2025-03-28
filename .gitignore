@@ -28,6 +28,11 @@ var/
 
 # Data files
 data/*.csv
+notion_processor/data/*.csv
+
+# Logs
+*.log
+logs/
 
 # IDE
 .idea/

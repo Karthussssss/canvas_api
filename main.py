@@ -1,8 +1,13 @@
 from utils.credential_manager import CredentialManager
 from data_collectors.grades import GradesCollector
 from utils.csv_handler import CSVHandler
+from notion_processor.notion_main import process_for_notion
 from config import GRADES_CSV_PATH
 import sys
+import os
+
+# Add the notion_processor directory to the path
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "notion_processor"))
 
 def collect_grades():
     """Collect grades for all students"""
@@ -66,6 +71,10 @@ def collect_grades():
                 
         except Exception as e:
             print(f"❌ Error processing {student_name}: {str(e)}")
+    
+    # After all students are processed, generate the Notion-friendly CSV
+    print("\n--- Generating Notion-friendly grades format ---")
+    process_for_notion()
     
     print("\n--- Grades collection completed ---")
 
