@@ -14,7 +14,14 @@ COURSE_NAME_MAP = {
     "General Biology - S9768 (2025S-BIOL-10)": "生物学",
     "General Psychology - S9987 (2025S-PSYC-1A)": "心理学",
     "Music Appreciation - S8262 (2025S-MUS-10)": "音乐鉴赏",
-    "Precalculus - F9621 (2024F-MATH-2)": "预微积分"
+    "Precalculus - F9621 (2024F-MATH-2)": "预微积分",
+    # New course mappings
+    "Introduction to Art - S8279 (2025S-ART-1)": "艺术学导论",
+    "Introduction to Ethnic Studies - S9906 (2025S-ETHS-1)": "族裔研究导论",
+    "Introduction to Sociology - S9999 (2025S-SOC-1)": "社会学导论",
+    "Calculus 4A - S0516 (2025S-MATH-4A)": "微积分 4A",
+    "Critical Reasoning/Read/Write - S9853 (2025S-ENGL-1C)": "批判性推理/阅读/写作",
+    "Precalculus - S9722 (2025S-MATH-2)": "预微积分"
 }
 def get_student_name():
     """获取当前学生名字"""

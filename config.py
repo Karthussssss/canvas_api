@@ -81,14 +81,62 @@ def build_student_mappings():
     student_to_english = {}
     
     for student_name, data in STUDENT_CREDENTIALS.items():
-        # Canvas API name to Chinese name
+        # Get the data from credentials
         canvas_name = data.get("student_name", student_name)
         chinese_name = data.get("student_chinese_name", "")
         english_name = data.get("student_english_name", "")
         
+        # Base mappings
         if canvas_name:
             student_to_chinese[canvas_name] = chinese_name
             student_to_english[canvas_name] = english_name
+        
+        # Add English name as a key for lookups
+        if english_name:
+            student_to_chinese[english_name] = chinese_name
+            student_to_english[english_name] = english_name
+            
+            # Clean English name (first name only)
+            english_name_clean = english_name.split()[0] if ' ' in english_name else english_name
+            student_to_chinese[english_name_clean] = chinese_name
+            student_to_english[english_name_clean] = english_name
+        
+        # Handle typical Canvas name format: English name + Last name
+        # Extract last name from Canvas name (which is often in "First Last" format)
+        if canvas_name and " " in canvas_name:
+            last_name = canvas_name.split()[-1]
+            
+            # Map "English Last" to the student
+            if english_name:
+                # Map both formats: "English Last" and just "English"
+                english_first_name = english_name.split()[0] if ' ' in english_name else english_name
+                english_last_combo = f"{english_first_name} {last_name}"
+                
+                student_to_chinese[english_last_combo] = chinese_name
+                student_to_english[english_last_combo] = english_name
+        
+        # Directly map Jason Jiang to the right student (specific fixes)
+        if english_name == "Jason" and "Jiang" in student_name:
+            student_to_chinese["Jason Jiang"] = chinese_name
+            student_to_english["Jason Jiang"] = english_name
+            
+        # Map other problematic students directly
+        problem_students = {
+            "Ryan Xu": ("Xu Ruijian", "Ryan"),
+            "Queenie Guo": ("Guo Zirui", "Queenie"),
+            "Peter Deng": ("Deng Caihaoxuan", "Peter"),
+            "Nora Guo": ("Guo Yuhan", "Nora"),
+            "Mia Fan": ("Fan Xingzhu", "Mia"),
+            "Kyler Yuan": ("Yuan Man", "Kyler"),
+            "Jonathan Hu": ("Hu Kaifeng", "Jonathan"),
+            "Jerry Ren": ("Ren Xizhi", "Jerry"),
+            "Gavin Wang": ("Wang Zhiyu", "Gavin")
+        }
+        
+        for canvas_format, (_, en_name) in problem_students.items():
+            if english_name == en_name:
+                student_to_chinese[canvas_format] = chinese_name
+                student_to_english[canvas_format] = english_name
     
     return student_to_chinese, student_to_english
 
@@ -104,7 +152,14 @@ COURSE_NAME_TO_CHINESE = {
     "General Psychology - S9987 (2025S-PSYC-1A)": "心理学",
     "Music Appreciation - S8262 (2025S-MUS-10)": "音乐鉴赏",
     "Precalculus - F9621 (2024F-MATH-2)": "预微积分",
-    "Principles of Economics-Micro - S0031 (2025S-ECON-1A)": "微观经济学导论"
+    "Principles of Economics-Micro - S0031 (2025S-ECON-1A)": "微观经济学导论",
+    # Previously unknown courses now properly mapped
+    "Introduction to Art - S8279 (2025S-ART-1)": "艺术学导论",
+    "Introduction to Ethnic Studies - S9906 (2025S-ETHS-1)": "族裔研究导论",
+    "Introduction to Sociology - S9999 (2025S-SOC-1)": "社会学导论",
+    "Calculus 4A - S0516 (2025S-MATH-4A)": "微积分 4A",
+    "Critical Reasoning/Read/Write - S9853 (2025S-ENGL-1C)": "批判性推理/阅读/写作",
+    "Precalculus - S9722 (2025S-MATH-2)": "预微积分"
 }
 
 COURSE_TO_ACADEMIC_SUPPORT = {
