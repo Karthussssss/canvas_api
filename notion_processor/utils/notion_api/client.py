@@ -34,6 +34,8 @@ class NotionClient:
                 return {"title": []}
             elif property_type == "rich_text":
                 return {"rich_text": []}
+            elif property_type == "select":
+                return {"select": None}
             else:
                 return {"rich_text": []}
         
@@ -87,6 +89,18 @@ class NotionClient:
                 }
             except (ValueError, TypeError, AttributeError):
                 return {"date": None}
+        elif property_type == "select":
+            # Special handling for Is Latest Batch
+            if property_name == "Is Latest Batch":
+                if isinstance(value, bool):
+                    return {"select": {"name": "True" if value else "False"}}
+                elif isinstance(value, str):
+                    return {"select": {"name": value}}
+                else:
+                    return {"select": {"name": str(value)}}
+            else:
+                # Normal select handling
+                return {"select": {"name": str(value)}}
         else:
             # Default to rich_text for unknown types
             return {
@@ -145,6 +159,48 @@ class NotionClient:
         
         return results
     
+    def reset_latest_batch_flags(self) -> int:
+        """
+        Reset all 'Is Latest Batch' flags to False for existing records.
+        Returns the number of records updated.
+        """
+        print("Resetting 'Is Latest Batch' flags for existing records...")
+        updated_count = 0
+        
+        try:
+            # Query records where Is Latest Batch is "True"
+            response = self.client.databases.query(
+                database_id=self.database_id,
+                filter={
+                    "property": "Is Latest Batch",
+                    "select": {
+                        "equals": "True"
+                    }
+                }
+            )
+            
+            # Update each record
+            for page in response["results"]:
+                page_id = page["id"]
+                try:
+                    self.client.pages.update(
+                        page_id=page_id,
+                        properties={
+                            "Is Latest Batch": {"select": {"name": "False"}}
+                        }
+                    )
+                    updated_count += 1
+                except Exception as e:
+                    print(f"⚠️ Error updating record {page_id}: {str(e)}")
+                    continue
+            
+            print(f"✅ Reset {updated_count} 'Is Latest Batch' flags")
+            return updated_count
+            
+        except Exception as e:
+            print(f"⚠️ Error resetting 'Is Latest Batch' flags: {str(e)}")
+            return 0
+    
     def append_data_from_csv(self, csv_path: str) -> int:
         """
         Append data from a CSV file to the Notion database.
@@ -200,11 +256,17 @@ class NotionClient:
             return 0
             
         try:
+            # First, reset all 'Is Latest Batch' flags
+            self.reset_latest_batch_flags()
+            
             # Read the CSV file - handle N/A by converting them to NaN
             df = pd.read_csv(csv_path, na_values=['N/A', ''])
             
             # Replace NaN with None to avoid JSON serialization issues
             df = df.replace({np.nan: None})
+            
+            # Set 'Is Latest Batch' to True for all new records
+            df['Is Latest Batch'] = True
             
             if df.empty:
                 print(f"⚠️ No data found in {csv_path}")

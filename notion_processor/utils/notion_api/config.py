@@ -16,7 +16,13 @@ NOTION_PROPERTY_MAP = {
     "General Psychology": "General Psychology",
     "Music Appreciation": "Music Appreciation",
     "Principles of Economics-Micro": "Principles of Economics-Micro",
-    "Update Batch": "Update Batch"
+    "Introduction to Art": "Introduction to Art",
+    "Introduction to Ethnic Studies": "Introduction to Ethnic Studies",
+    "Introduction to Sociology": "Introduction to Sociology",
+    "Calculus 4A": "Calculus 4A",
+    "Critical Reasoning/Read/Write": "Critical Reasoning/Read/Write",
+    "Update Batch": "Update Batch",
+    "Is Latest Batch": "Is Latest Batch"
     # Updated Time is removed as it will be handled by Notion's created_time
 }
 
@@ -34,6 +40,12 @@ NOTION_PROPERTY_TYPES = {
     "General Psychology": "number",
     "Music Appreciation": "number",
     "Principles of Economics-Micro": "number",
-    "Update Batch": "rich_text"
+    "Introduction to Art": "number",
+    "Introduction to Ethnic Studies": "number",
+    "Introduction to Sociology": "number",
+    "Calculus 4A": "number",
+    "Critical Reasoning/Read/Write": "number",
+    "Update Batch": "rich_text",
+    "Is Latest Batch": "select"
     # Updated Time is removed as it will be handled by Notion's created_time
 } 

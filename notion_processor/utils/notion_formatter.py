@@ -142,6 +142,7 @@ class NotionFormatter:
                     'student_name': student_name,
                     'student_chinese_name': group['student_chinese_name'].iloc[0],
                     'student_english_name': group['student_english_name'].iloc[0],
+                    'Is Latest Batch': True  # Set to True for all new records
                 }
                 
                 # Initialize all course columns with None or N/A
@@ -193,7 +194,7 @@ class NotionFormatter:
                     
                     # Make sure the new DataFrame has all columns from the existing DataFrame
                     for col in existing_df.columns:
-                        if col not in new_df.columns and col not in ['student_name', 'student_chinese_name', 'student_english_name', 'Updated Time', 'Update Batch']:
+                        if col not in new_df.columns and col not in ['student_name', 'student_chinese_name', 'student_english_name', 'Updated Time', 'Update Batch', 'Is Latest Batch']:
                             new_df[col] = "N/A"
                     
                     # IMPORTANT: Remove duplicates from existing data before concatenating
@@ -201,8 +202,20 @@ class NotionFormatter:
                     students_to_update = new_df['student_name'].unique()
                     existing_df = existing_df[~existing_df['student_name'].isin(students_to_update)]
                     
+                    # Ensure existing records have Is Latest Batch column (set to False)
+                    if 'Is Latest Batch' not in existing_df.columns:
+                        existing_df['Is Latest Batch'] = False
+                    else:
+                        existing_df['Is Latest Batch'] = False
+                    
                     # Append new data to existing data
                     combined_df = pd.concat([existing_df, new_df], ignore_index=True)
+                    
+                    # Ensure Is Latest Batch is in the middle (not at the end)
+                    if 'Is Latest Batch' in combined_df.columns:
+                        is_latest_batch = combined_df.pop('Is Latest Batch')
+                        # Insert after the student name columns but before course columns
+                        combined_df.insert(3, 'Is Latest Batch', is_latest_batch)
                     
                     # Move the Updated Time column to the end
                     if 'Updated Time' in combined_df.columns:
@@ -222,7 +235,12 @@ class NotionFormatter:
                 except Exception as e:
                     print(f"⚠️ Error reading existing file, creating new one: {str(e)}")
                     
-                    # Move the Updated Time column to the end for the new DataFrame
+                    # Move Is Latest Batch to the middle
+                    if 'Is Latest Batch' in new_df.columns:
+                        is_latest_batch = new_df.pop('Is Latest Batch')
+                        new_df.insert(3, 'Is Latest Batch', is_latest_batch)
+                    
+                    # Move the Updated Time column to the end
                     if 'Updated Time' in new_df.columns:
                         updated_time = new_df.pop('Updated Time')
                         new_df['Updated Time'] = updated_time
@@ -234,6 +252,11 @@ class NotionFormatter:
                         
                     new_df.to_csv(self.output_csv_path, index=False)
             else:
+                # Move Is Latest Batch to the middle
+                if 'Is Latest Batch' in new_df.columns:
+                    is_latest_batch = new_df.pop('Is Latest Batch')
+                    new_df.insert(3, 'Is Latest Batch', is_latest_batch)
+                
                 # Move the Updated Time column to the end
                 if 'Updated Time' in new_df.columns:
                     updated_time = new_df.pop('Updated Time')

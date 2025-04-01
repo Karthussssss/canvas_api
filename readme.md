@@ -1,32 +1,34 @@
-# Canvas API Academic Data Collector
+# Canvas API Academic Data Collector (V1.0)
 
 ## Project Overview
 
-In this project, we will use Python to call Canvas API to get the student's academic performance data.
+In this project, we use the Canvas API to collect student academic performance data and integrate it with Notion databases for easy access and analysis.
 
-We will mainly focus on 2 datasets:
-1. ALL student's currently enrolled courses' scores.
-2. ALL student's currently enrolled courses' assignment status (submitted, graded, late, etc.).
+We focus on collecting and processing:
+1. ALL student's currently enrolled courses' scores
+2. Processing the data for direct integration with Notion databases
+3. Managing the "Is Latest Batch" flag to easily filter the most recent data
+4. (Planned) ALL student's currently enrolled courses' assignment status
 
-Then we will use these data to update the database in CSV format for later use and visualization. The data is also prepared in a Notion-friendly format for integration with Notion databases.
+### Dataset: Scores
 
-### Dataset 1: Scores
-
-The dataset should include the following information:
+The dataset includes the following information:
 - Student Name: Directly from Canvas API
-- Student Chinese Name: Mapping from Student Name
-- Student Preferred English Name: Mapping from Student Name
+- Student Chinese Name: Mapping from student credentials
+- Student Preferred English Name: Mapping from student credentials
 - Course Name: Directly from Canvas API
 - Course Name in Chinese: Mapping from Course Name
 - Score: Directly from Canvas API
 - Grade: Simple mapping: 90-100 A, 80-89 B, 70-79 C, 60-69 D, 0-59 F
-- Fetch Time: When the data is fetched. YYYY-MM-DD HH:MM:SS
+- Fetch Time: When the data is fetched (YYYY-MM-DD HH:MM:SS)
+- Update Batch: A unique identifier for each data collection batch
+- Is Latest Batch: A flag indicating if the record is from the most recent update
 
-We ALWAYS append the new data to the existing dataset. 
+We ALWAYS append new data to the existing dataset and manage historical records through the batch flags.
 
-### Dataset 2: Assignment Status
+### Dataset 2: Assignment Status (Planned for future releases)
 
-The dataset should include the following information:
+The dataset will include the following information:
 - Student Name: Directly from Canvas API
 - Student Chinese Name: Mapping from Student Name
 - Student Preferred English Name: Mapping from Student Name
@@ -42,11 +44,10 @@ The dataset should include the following information:
 - Assignment Status: Directly from Canvas API
 - Fetch Time: When the data is fetched. YYYY-MM-DD HH:MM:SS
 
-We DO NOT ALWAYS append the new data to the existing dataset. 
-We apply a specific rule for data update:
-1. If the assignment is new, we append the data to the existing dataset.
-2. If the assignment is not new, we only update the assignment data as in: fetch time, assignment status, assignment student score.
-This makes sure there is only one record for each assignment and avoids duplicate data.
+The planned data update strategy for assignments:
+1. If the assignment is new, we will append the data to the existing dataset.
+2. If the assignment is not new, we will only update the assignment data as in: fetch time, assignment status, assignment student score.
+This will ensure there is only one record for each assignment and avoids duplicate data.
 
 ## Installation & Setup
 
@@ -64,19 +65,24 @@ This makes sure there is only one record for each assignment and avoids duplicat
 canvas_api/
 ├── main.py                   # Main entry point
 ├── config.py                 # Configuration settings and mappings
-├── update_user_ids.py        # Utility for updating user IDs in credentials
+├── update_student_info.py    # Utility for updating student information in Notion data
 ├── data_collectors/
 │   ├── __init__.py
-│   ├── base_collector.py     # Base class for collectors
 │   └── grades.py             # Collects course grades
 ├── notion_processor/
 │   ├── __init__.py
 │   ├── notion_main.py        # Main entry point for Notion processing
+│   ├── notion_api_reference.md # Reference documentation for Notion API
 │   ├── data/                 # Notion-specific data files
 │   │   └── notion_grades.csv # Notion-friendly formatted grades
 │   └── utils/
 │       ├── __init__.py
-│       └── notion_formatter.py # Formats data for Notion compatibility
+│       ├── notion_formatter.py # Formats data for Notion compatibility
+│       ├── batch_manager.py    # Manages update batches
+│       └── notion_api/        # Notion API integration
+│           ├── __init__.py
+│           ├── client.py      # Notion API client
+│           └── config.py      # Notion API configuration
 ├── utils/
 │   ├── __init__.py
 │   ├── credential_manager.py # Manages student credentials
@@ -84,8 +90,34 @@ canvas_api/
 │   └── error_handler.py      # Error handling utilities
 └── data/                     # Directory for storing data files
     ├── grades.csv            # Raw grades data
-    └── assignments.csv       # Raw assignments data
+    └── assignments.csv       # (Planned) Raw assignments data
 ```
+
+## Key Features (V1.0)
+
+1. **Enhanced Student Name Mapping**:
+   - Improved mapping between Canvas API names and credential names
+   - Support for English names, Chinese names, and pinyin variations
+   - Automatic matching of different name formats (e.g., "Jason Jiang" with "Jiang Chenghao")
+
+2. **Direct Notion Database Integration**:
+   - Automatically push data to Notion databases via the Notion API
+   - Format data in a Notion-friendly structure with students as rows and courses as columns
+   - Update records with proper type formatting for different Notion property types
+
+3. **"Is Latest Batch" Flag Management**:
+   - Each new batch of data is marked with an "Is Latest Batch" flag set to "True"
+   - Prior to adding new data, all existing "True" flags are set to "False"
+   - This allows easy filtering in Notion to display only the most recent data
+
+4. **Improved Course Management**:
+   - Automatic detection and mapping of new courses
+   - Proper handling of "未知课程" (unknown courses) with accurate Chinese translations
+   - Support for a wide range of course formats and naming conventions
+
+5. **Utility Scripts**:
+   - `update_student_info.py`: Standalone script to update student information in the Notion data
+   - Batch processing and management utilities
 
 ## Configuration & Mappings
 
@@ -93,42 +125,56 @@ All configurations and mappings are stored in `config.py`:
 
 1. File paths:
    - GRADES_CSV_PATH
-   - ASSIGNMENTS_CSV_PATH
    - NOTION_GRADES_CSV_PATH
+   - ASSIGNMENTS_CSV_PATH (Planned)
 
 2. Data Mappings:
    - Student Name to Chinese Name
    - Student Name to Preferred English Name
    - Course Name to Chinese Name
-   - Course Name to Academic Support
+   - Course Name to Academic Support (Planned for assignments)
    - Score to Grade mapping
 
 ## Data Storage
 
-Data is stored in CSV format for easy access and development:
+Data is stored in two main formats:
 
-1. `data/grades.csv`: Contains all collected course grades
+1. `data/grades.csv`: Contains all collected course grades in long format
    - Format: Student Name, Chinese Name, English Name, Course Name, Chinese Course Name, Score, Grade, Fetch Time
 
-2. `data/assignments.csv`: Contains all collected assignment data
-   - Format: Student Name, Chinese Name, English Name, Course Name, Chinese Course Name, Academic Support, Assignment Name, Assignment ID, Due Date, Submission Time, Full Mark, Student Score, Status, Fetch Time
+2. `notion_processor/data/notion_grades.csv`: Contains grades data formatted for Notion in wide format
+   - Format: Student Name, Chinese Name, English Name, Is Latest Batch, [All Course Columns], Updated Time, Update Batch
 
-3. `notion_processor/data/notion_grades.csv`: Contains grades data formatted for Notion
-   - Format: Student Name, Chinese Name, English Name, [All Course Columns], Updated Time
+3. `data/assignments.csv`: (Planned) Will contain assignment data
+   - Format: Student Name, Chinese Name, English Name, Course Name, Chinese Course Name, Academic Support, Assignment Name, Assignment ID, Due Date, Submission Time, Full Mark, Student Score, Status, Fetch Time
 
 ## Notion Integration
 
-The project includes a dedicated Notion processor module that:
+The Notion integration now includes:
 
-1. Reads data from the standard grades CSV
-2. Transforms it into a Notion-friendly format:
-   - Student information as rows
-   - Course names as columns
-   - Latest grades as values
-   - All possible courses included, even if a student isn't enrolled
-3. Automatically updates the Notion CSV each time the main script runs
+1. **Direct API Integration**:
+   - Full integration with the Notion API to create and update database records
+   - Property mapping based on Notion's requirements
+   - Support for various property types (title, rich text, number, select, etc.)
 
-This formatted data can be easily imported into a Notion database or used with the Notion API.
+2. **"Is Latest Batch" Flag Management**:
+   - Automatically resets existing "True" flags to "False" before adding new data
+   - Sets the flag to "True" for all newly added records
+   - Enables easy filtering in Notion to display only the most recent data
+
+3. **Comprehensive Error Handling**:
+   - Detailed error messages for Notion API failures
+   - Graceful handling of rate limits and other API issues
+
+## Notion API Reference
+
+A comprehensive Notion API reference document is included in `notion_processor/notion_api_reference.md`, covering:
+
+1. Basic setup and authentication
+2. Property types and formats
+3. Database querying with filters
+4. Record creation and updates
+5. Best practices and examples
 
 ## Error Handling
 
@@ -185,19 +231,24 @@ Data collection can be automated using:
 2. Scheduled execution using system schedulers:
    - cron (Linux/Mac): `0 */6 * * * cd /path/to/project && python main.py`
    - Task Scheduler (Windows)
-3. Future improvement: Implement automatic scheduling within the application
 
 ## Dependencies
 
 Required Python packages:
-- requests==2.28.1
+- requests==2.28.1 
 - python-dateutil==2.8.2
 - pandas==1.5.0
+- notion-client==2.0.0
 
 ## Future Enhancements
 
-- Direct integration with Notion API to update Notion databases
-- Assignment data collection and processing
-- Integration with Lark workspace via API
+- Assignment data collection and processing (Dataset 2)
+  - Track submission status, grades, and due dates
+  - Identify late or missing assignments
+  - Generate reports on assignment completion rates
 - Email notification system for grade updates
+- Interactive dashboard for data visualization
+- Support for additional Canvas API endpoints
+- Enhanced filtering and reporting capabilities
+- Integration with other platforms and services
 
