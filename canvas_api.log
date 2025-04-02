@@ -362,3 +362,20 @@
 2025-04-02 10:29:08,641 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
 2025-04-02 10:29:09,180 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
 2025-04-02 10:29:10,054 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-02 10:29:14,949 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-02 10:29:16,961 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-02 10:29:17,433 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-02 10:29:17,964 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-02 10:29:23,395 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-02 10:29:23,946 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-02 10:29:24,418 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-02 10:29:24,955 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-02 10:29:25,475 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-02 10:29:31,573 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-02 10:29:34,295 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-02 10:29:34,815 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-02 10:29:35,447 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-02 10:29:35,449 - root - INFO - Grades collection completed at 2025-04-02 10:29:35.449079
+2025-04-02 10:29:35,449 - root - INFO - Duration: 0:03:54.421537
+2025-04-02 10:29:35,449 - root - INFO - Students processed: 45
+2025-04-02 10:29:35,449 - root - INFO - Records added: 0

@@ -1,14 +1,30 @@
+#!/usr/bin/env python3
+"""
+Enhanced Email Notifier for Canvas API
+Sends beautifully formatted HTML emails with grade reports
+"""
+
 import smtplib
 import os
 import ssl
-import pandas as pd
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
 import datetime
+import sys
+from pathlib import Path
+
+# Add parent directory to path to import from emails
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(os.path.dirname(current_dir))
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+
+# Now import from parent project
+from emails.report_generator import generate_email_html
 
 # Load environment variables
-load_dotenv(dotenv_path="config/.env")
+load_dotenv()
 
 class EnhancedEmailNotifier:
     def __init__(self):
@@ -19,67 +35,11 @@ class EnhancedEmailNotifier:
         self.smtp_server = os.getenv("SMTP_SERVER", "smtp.gmail.com")
         self.smtp_port = int(os.getenv("SMTP_PORT", "587"))
         
-        # Define template paths
-        self.success_template_path = os.path.join("emails", "templates", "success_template.html")
-        self.failure_template_path = os.path.join("emails", "templates", "failure_template.html")
-        
         # Check if email is configured
         self.is_configured = bool(self.sender_email and self.sender_password and self.recipient_email)
         
-    def _read_template(self, template_path):
-        """Read an HTML template from file"""
-        try:
-            with open(template_path, 'r') as file:
-                return file.read()
-        except Exception as e:
-            print(f"Error reading template {template_path}: {str(e)}")
-            return ""
-            
-    def _replace_placeholders(self, template, replacements):
-        """Replace placeholders in template with actual values"""
-        for key, value in replacements.items():
-            placeholder = f"{{{{{key}}}}}"
-            template = template.replace(placeholder, str(value))
-        return template
-    
-    def _gather_course_statistics(self):
-        """Gather statistics about courses from grades.csv"""
-        try:
-            grades_path = os.path.join("data", "grades.csv")
-            if not os.path.exists(grades_path):
-                return "No course data available"
-                
-            df = pd.read_csv(grades_path)
-            
-            # Group by course and calculate stats
-            course_stats = df.groupby(['course_name', 'course_chinese_name']).agg({
-                'student_name': 'count',
-                'score': ['mean', 'min', 'max']
-            }).reset_index()
-            
-            # Format the results as HTML table rows
-            html_rows = ""
-            for _, row in course_stats.iterrows():
-                course_name = f"{row['course_chinese_name']} ({row['course_name']})"
-                students = row[('student_name', 'count')]
-                avg_score = f"{row[('score', 'mean')]:.2f}"
-                
-                html_rows += f"""
-                <tr>
-                    <td>{course_name}</td>
-                    <td>{students}</td>
-                    <td>{avg_score}</td>
-                </tr>
-                """
-            
-            return html_rows
-            
-        except Exception as e:
-            print(f"Error gathering course statistics: {str(e)}")
-            return "<tr><td colspan='3'>Error gathering course statistics</td></tr>"
-    
-    def send_notification(self, subject, html_content):
-        """Send an email notification with the provided subject and HTML content."""
+    def send_notification(self, subject, message_body, is_success=True):
+        """Send an email notification with the provided subject and message."""
         if not self.is_configured:
             print("Email notification not configured. Skipping notification.")
             return False
@@ -89,10 +49,13 @@ class EnhancedEmailNotifier:
             message = MIMEMultipart()
             message["From"] = self.sender_email
             message["To"] = self.recipient_email
+            
+            # Add current timestamp to subject
+            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             message["Subject"] = subject
             
             # Attach HTML content
-            message.attach(MIMEText(html_content, "html"))
+            message.attach(MIMEText(message_body, "html"))
             
             # Create a secure SSL context
             context = ssl.create_default_context()
@@ -110,49 +73,93 @@ class EnhancedEmailNotifier:
             print(f"Failed to send email: {str(e)}")
             return False
             
-    def send_success_notification(self, students_processed, records_added, batch_id="N/A", execution_time="N/A"):
-        """Send a success notification with summary of the run."""
+    def send_enhanced_report(self, students_processed, records_added):
+        """Send an enhanced HTML report with detailed grade analysis."""
+        try:
+            # Define file paths
+            current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            grades_csv_path = os.path.join(current_dir, "..", "notion_processor", "data", "notion_grades.csv")
+            template_path = os.path.join(current_dir, "templates", "report_template.html")
+            output_path = os.path.join(current_dir, "generated", "grades_report.html")
+            
+            # Ensure output directory exists
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+            
+            # Generate the HTML report
+            html_content = generate_email_html(grades_csv_path, template_path, output_path)
+            
+            # Get the date for the subject line
+            today = datetime.datetime.now().strftime("%Y-%m-%d")
+            
+            # Send the email
+            subject = f"📊 Canvas Grades Report: Performance Summary & Alerts [{today}]"
+            return self.send_notification(subject, html_content, is_success=True)
+            
+        except Exception as e:
+            print(f"Error generating enhanced report: {str(e)}")
+            # Fall back to simple success notification
+            return self.send_simple_success_notification(students_processed, records_added)
+    
+    def send_simple_success_notification(self, students_processed, records_added):
+        """Send a simple success notification with summary of the run."""
+        subject = "Canvas Grades Collection Success"
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        date = datetime.datetime.now().strftime("%Y-%m-%d")
         
-        # Get course statistics
-        course_stats = self._gather_course_statistics()
+        # Create a simpler HTML message
+        html_message = f"""
+        <html>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto;">
+            <div style="background-color: #4CAF50; color: white; padding: 20px; text-align: center;">
+                <h1>✅ Canvas Grades Collection Success</h1>
+                <p>Run Time: {timestamp}</p>
+            </div>
+            <div style="padding: 20px;">
+                <h2>Canvas API Academic Data Collector completed successfully!</h2>
+                <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                    <h3>Summary:</h3>
+                    <ul>
+                        <li><strong>Students processed:</strong> {students_processed}</li>
+                        <li><strong>Records added to Notion:</strong> {records_added}</li>
+                        <li><strong>Full logs available in:</strong> logs/canvas_api.log</li>
+                    </ul>
+                </div>
+                <p>For more detailed analysis, please check the enhanced report feature.</p>
+            </div>
+            <div style="background-color: #f1f1f1; padding: 10px; text-align: center; font-size: 0.8em; color: #666;">
+                <p>This is an automated message from the Canvas API Academic Data Collector.</p>
+                <p>Version 1.0 | {timestamp.split()[0]}</p>
+            </div>
+        </body>
+        </html>
+        """
         
-        # Read the template
-        template = self._read_template(self.success_template_path)
-        
-        # Replace placeholders
-        replacements = {
-            "timestamp": timestamp,
-            "students_processed": students_processed,
-            "records_added": records_added,
-            "execution_time": execution_time,
-            "batch_id": batch_id,
-            "course_stats": course_stats,
-            "date": date
-        }
-        html_content = self._replace_placeholders(template, replacements)
-        
-        # Send the email
-        subject = f"✅ Canvas Grades Collection Success - {timestamp}"
-        return self.send_notification(subject, html_content)
+        return self.send_notification(subject, html_message, is_success=True)
         
     def send_failure_notification(self, error_message):
         """Send a failure notification with error details."""
+        subject = "Canvas Grades Collection Failed"
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        date = datetime.datetime.now().strftime("%Y-%m-%d")
         
-        # Read the template
-        template = self._read_template(self.failure_template_path)
+        html_message = f"""
+        <html>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto;">
+            <div style="background-color: #f44336; color: white; padding: 20px; text-align: center;">
+                <h1>❌ Canvas Grades Collection Failed</h1>
+                <p>Run Time: {timestamp}</p>
+            </div>
+            <div style="padding: 20px;">
+                <h2>Canvas API Academic Data Collector encountered an error</h2>
+                <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0; font-family: monospace; white-space: pre-wrap;">
+{error_message}
+                </div>
+                <p>Please check the logs for more information: <code>logs/canvas_api.log</code></p>
+            </div>
+            <div style="background-color: #f1f1f1; padding: 10px; text-align: center; font-size: 0.8em; color: #666;">
+                <p>This is an automated message from the Canvas API Academic Data Collector.</p>
+                <p>Version 1.0 | {timestamp.split()[0]}</p>
+            </div>
+        </body>
+        </html>
+        """
         
-        # Replace placeholders
-        replacements = {
-            "timestamp": timestamp,
-            "error_message": error_message,
-            "date": date
-        }
-        html_content = self._replace_placeholders(template, replacements)
-        
-        # Send the email
-        subject = f"❌ Canvas Grades Collection Failed - {timestamp}"
-        return self.send_notification(subject, html_content) 
+        return self.send_notification(subject, html_message, is_success=False) 

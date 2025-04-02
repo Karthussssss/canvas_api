@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .content {
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .summary-box {
+            background-color: white;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .alert-box {
+            background-color: white;
+            border-left: 4px solid #FF9800;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .warning-box {
+            background-color: white;
+            border-left: 4px solid #F44336;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .grade-a {
+            background-color: #E8F5E9;
+            font-weight: bold;
+        }
+        .grade-b {
+            background-color: #FFF9C4;
+        }
+        .grade-c-or-below {
+            background-color: #FFEBEE;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+        }
+        .progress-bar {
+            height: 20px;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            font-weight: bold;
+        }
+        .footer {
+            background-color: #f1f1f1;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.8em;
+            color: #666;
+            border-radius: 0 0 8px 8px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>✅ Canvas Grades Collection Success</h1>
+        <p>Run Time: April 02, 2025 - 11:14:33</p>
+    </div>
+    
+    <div class="content">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Students Processed</div>
+                <div class="stat-value">45</div>
+                <div>100% Success Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Average GPA</div>
+                <div class="stat-value">3.3</div>
+                <div>Class of 2025</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">A Grade Achievement</div>
+                <div class="stat-value">55%</div>
+                <div>Across All Courses</div>
+            </div>
+        </div>
+        
+        <div class="summary-box">
+            <h2>📈 Course Performance Summary</h2>
+            <p>Overall course performance with grade distribution and average scores.</p>
+            
+            <table>
+                <tr>
+                    <th>Course</th>
+                    <th>Students</th>
+                    <th>Avg. Score</th>
+                    <th>A Grades</th>
+                    <th>Distribution</th>
+                </tr>
+                
+                <tr>
+                    <td>Introduction to Art</td>
+                    <td>5</td>
+                    <td>96.7%</td>
+                    <td>100%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 100%; background-color: #4CAF50;">100%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Introduction to Ethnic Studies</td>
+                    <td>5</td>
+                    <td>98.0%</td>
+                    <td>100%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 100%; background-color: #4CAF50;">100%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Critical Reasoning/Read/Write</td>
+                    <td>7</td>
+                    <td>99.6%</td>
+                    <td>100%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 100%; background-color: #4CAF50;">100%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Music Appreciation</td>
+                    <td>21</td>
+                    <td>97.1%</td>
+                    <td>95%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 95%; background-color: #4CAF50;">95%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Introduction to Statistics</td>
+                    <td>11</td>
+                    <td>97.1%</td>
+                    <td>90%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 90%; background-color: #4CAF50;">90%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Introduction to Sociology</td>
+                    <td>7</td>
+                    <td>98.7%</td>
+                    <td>85%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 85%; background-color: #4CAF50;">85%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Calculus 3A</td>
+                    <td>12</td>
+                    <td>86.3%</td>
+                    <td>58%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 58%; background-color: #FF9800;">58%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Principles of Economics-Micro</td>
+                    <td>9</td>
+                    <td>93.9%</td>
+                    <td>55%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 55%; background-color: #FF9800;">55%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>General Biology</td>
+                    <td>29</td>
+                    <td>81.6%</td>
+                    <td>37%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 37%; background-color: #FF9800;">37%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>General Psychology</td>
+                    <td>14</td>
+                    <td>79.6%</td>
+                    <td>21%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 21%; background-color: #F44336;">21%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Calculus 3B</td>
+                    <td>6</td>
+                    <td>78.3%</td>
+                    <td>16%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 16%; background-color: #F44336;">16%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Calculus 4A</td>
+                    <td>4</td>
+                    <td>68.8%</td>
+                    <td>0%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 0%; background-color: #F44336;">0%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="alert-box">
+            <h2>⚠️ Performance Concerns</h2>
+            <p>Students currently not achieving an A grade (below 90%):</p>
+            
+            <table>
+                <tr>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Current Score</th>
+                    <th>Required Improvement</th>
+                </tr>
+                
+                <tr>
+                    <td>Lucy Lu</td>
+                    <td>General Biology</td>
+                    <td class="grade-c-or-below">40.0%</td>
+                    <td>+50.0% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Irene Guo</td>
+                    <td>Calculus 4A</td>
+                    <td class="grade-c-or-below">45.8%</td>
+                    <td>+44.2% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Kyler Yuan</td>
+                    <td>Calculus 3B</td>
+                    <td class="grade-c-or-below">46.8%</td>
+                    <td>+43.2% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Zihan Yang</td>
+                    <td>General Biology</td>
+                    <td class="grade-c-or-below">49.5%</td>
+                    <td>+40.5% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Linquan Feng</td>
+                    <td>General Biology</td>
+                    <td class="grade-c-or-below">51.7%</td>
+                    <td>+38.3% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Yuling Zong</td>
+                    <td>General Biology</td>
+                    <td class="grade-c-or-below">51.8%</td>
+                    <td>+38.2% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>David Wu</td>
+                    <td>Calculus 3A</td>
+                    <td class="grade-c-or-below">60.0%</td>
+                    <td>+30.0% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Lucy Lu</td>
+                    <td>General Psychology</td>
+                    <td class="grade-c-or-below">63.8%</td>
+                    <td>+26.2% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Yiyi Hu</td>
+                    <td>General Biology</td>
+                    <td class="grade-c-or-below">64.3%</td>
+                    <td>+25.7% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Yiyi Hu</td>
+                    <td>General Psychology</td>
+                    <td class="grade-c-or-below">65.8%</td>
+                    <td>+24.2% needed for A</td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="warning-box">
+            <h2>🚨 At-Risk Students</h2>
+            <p>Students at risk of dropping from A to B (scores between 90-92%):</p>
+            
+            <table>
+                <tr>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Current Score</th>
+                </tr>
+                
+                <tr>
+                    <td>Gavin Wang</td>
+                    <td>General Biology</td>
+                    <td class="grade-a">92.9%</td>
+                </tr>
+                
+                <tr>
+                    <td>Jason Jiang</td>
+                    <td>General Psychology</td>
+                    <td class="grade-a">92.1%</td>
+                </tr>
+                
+                <tr>
+                    <td>Jerry Ren</td>
+                    <td>General Biology</td>
+                    <td class="grade-a">90.7%</td>
+                </tr>
+                
+                <tr>
+                    <td>Kyler Yuan</td>
+                    <td>Music Appreciation</td>
+                    <td class="grade-a">92.1%</td>
+                </tr>
+                
+                <tr>
+                    <td>Kyler Yuan</td>
+                    <td>General Biology</td>
+                    <td class="grade-a">91.1%</td>
+                </tr>
+                
+                <tr>
+                    <td>Lunett Huang</td>
+                    <td>Critical Reasoning/Read/Write</td>
+                    <td class="grade-a">92.9%</td>
+                </tr>
+                
+                <tr>
+                    <td>Peter Deng</td>
+                    <td>Introduction to Statistics</td>
+                    <td class="grade-a">92.9%</td>
+                </tr>
+                
+                <tr>
+                    <td>Raymond Zhou</td>
+                    <td>Calculus 3A</td>
+                    <td class="grade-a">92.0%</td>
+                </tr>
+                
+                <tr>
+                    <td>Siru Tong</td>
+                    <td>Calculus 3A</td>
+                    <td class="grade-a">92.0%</td>
+                </tr>
+                
+                <tr>
+                    <td>Yu Mao</td>
+                    <td>Critical Reasoning/Read/Write</td>
+                    <td class="grade-a">90.3%</td>
+                </tr>
+                
+                <tr>
+                    <td>Yuchen Wang</td>
+                    <td>General Psychology</td>
+                    <td class="grade-a">91.0%</td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2>🏆 Top Performers</h2>
+            <p>Students with exceptional performance (scoring above 100%):</p>
+            
+            <table>
+                <tr>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Score</th>
+                </tr>
+                
+                <tr>
+                    <td>Caroline Niu</td>
+                    <td>Critical Reasoning/Read/Write</td>
+                    <td class="grade-a">105.7%</td>
+                </tr>
+                
+                <tr>
+                    <td>Raymond Zhou</td>
+                    <td>Critical Reasoning/Read/Write</td>
+                    <td class="grade-a">103.6%</td>
+                </tr>
+                
+                <tr>
+                    <td>Alice Zhou</td>
+                    <td>Critical Reasoning/Read/Write</td>
+                    <td class="grade-a">103.2%</td>
+                </tr>
+                
+                <tr>
+                    <td>Alice Zhou</td>
+                    <td>Principles of Economics-Micro</td>
+                    <td class="grade-a">102.8%</td>
+                </tr>
+                
+                <tr>
+                    <td>Elizabeth Liu</td>
+                    <td>Critical Reasoning/Read/Write</td>
+                    <td class="grade-a">102.1%</td>
+                </tr>
+                
+                <tr>
+                    <td>Irene Guo</td>
+                    <td>Introduction to Sociology</td>
+                    <td class="grade-a">101.9%</td>
+                </tr>
+                
+                <tr>
+                    <td>Caroline Niu</td>
+                    <td>Introduction to Sociology</td>
+                    <td class="grade-a">101.7%</td>
+                </tr>
+                
+                <tr>
+                    <td>Raymond Zhou</td>
+                    <td>Principles of Economics-Micro</td>
+                    <td class="grade-a">101.4%</td>
+                </tr>
+                
+                <tr>
+                    <td>Siru Tong</td>
+                    <td>Principles of Economics-Micro</td>
+                    <td class="grade-a">101.2%</td>
+                </tr>
+                
+                <tr>
+                    <td>Huilin Yu</td>
+                    <td>Introduction to Sociology</td>
+                    <td class="grade-a">101.1%</td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2>🚩 Students Needing Immediate Outreach</h2>
+            <p>Priority students who need academic intervention:</p>
+            
+            <ul>
+                
+                <li><strong>Lucy Lu</strong>: Very low scores in: General Biology (40.0%)</li>
+                
+                <li><strong>Irene Guo</strong>: Very low scores in: Calculus 4A (45.8%)</li>
+                
+                <li><strong>Kyler Yuan</strong>: Very low scores in: Calculus 3B (46.8%)</li>
+                
+                <li><strong>Zihan Yang</strong>: Very low scores in: General Biology (49.5%)</li>
+                
+                <li><strong>Linquan Feng</strong>: Very low scores in: General Biology (51.7%)</li>
+                
+                <li><strong>Yuling Zong</strong>: Very low scores in: General Biology (51.8%)</li>
+                
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>This is an automated message from the Canvas API Academic Data Collector.</p>
+        <p>Version 1.0 | April 02, 2025</p>
+        <p>Details: 45 students processed | 12 courses analyzed | Batch ID: 250402-1025</p>
+    </div>
+
+    <div class="footer">
+        <p><strong>Note:</strong> Precalculus has been excluded from this analysis due to data inconsistencies.</p>
+    </div>
+</body>
+</html> 

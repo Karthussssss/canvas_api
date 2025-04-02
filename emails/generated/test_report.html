@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .content {
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .summary-box {
+            background-color: white;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .alert-box {
+            background-color: white;
+            border-left: 4px solid #FF9800;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .warning-box {
+            background-color: white;
+            border-left: 4px solid #F44336;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .grade-a {
+            background-color: #E8F5E9;
+            font-weight: bold;
+        }
+        .grade-b {
+            background-color: #FFF9C4;
+        }
+        .grade-c-or-below {
+            background-color: #FFEBEE;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+        }
+        .progress-bar {
+            height: 20px;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            font-weight: bold;
+        }
+        .footer {
+            background-color: #f1f1f1;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.8em;
+            color: #666;
+            border-radius: 0 0 8px 8px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1> Canvas Grades Collection Success</h1>
+        <p>Run Time: April 02, 2025 - 11:45:52</p>
+    </div>
+    
+    <div class="content">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="data:image/png;base64,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" alt="Beecoming Logo" style="max-width: 200px; height: auto;">
+    </div>
+    
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Students Processed</div>
+                <div class="stat-value">45</div>
+                <div>100% Success Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Average Score</div>
+                <div class="stat-value">89.0</div>
+                <div>Across All Courses</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">A Grade Achievement</div>
+                <div class="stat-value">55%</div>
+                <div>Across All Courses</div>
+            </div>
+        </div>
+        
+        <div class="summary-box">
+            <h2> Course Performance Summary</h2>
+            <p>Overall course performance with grade distribution and average scores.</p>
+            
+            <table>
+                <tr>
+                    <th>Course</th>
+                    <th>Students</th>
+                    <th>Avg. Score</th>
+                    <th>A Grades</th>
+                    <th>Distribution</th>
+                </tr>
+                
+                <tr>
+                    <td>Introduction to Art</td>
+                    <td>5</td>
+                    <td>96.7%</td>
+                    <td>100%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 100%; background-color: #4CAF50;">100%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Introduction to Ethnic Studies</td>
+                    <td>5</td>
+                    <td>98.0%</td>
+                    <td>100%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 100%; background-color: #4CAF50;">100%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Critical Reasoning/Read/Write</td>
+                    <td>7</td>
+                    <td>99.6%</td>
+                    <td>100%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 100%; background-color: #4CAF50;">100%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Music Appreciation</td>
+                    <td>21</td>
+                    <td>97.1%</td>
+                    <td>95%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 95%; background-color: #4CAF50;">95%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Introduction to Statistics</td>
+                    <td>11</td>
+                    <td>97.1%</td>
+                    <td>90%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 90%; background-color: #4CAF50;">90%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Introduction to Sociology</td>
+                    <td>7</td>
+                    <td>98.7%</td>
+                    <td>85%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 85%; background-color: #4CAF50;">85%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Calculus 3A</td>
+                    <td>12</td>
+                    <td>86.3%</td>
+                    <td>58%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 58%; background-color: #FF9800;">58%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Principles of Economics-Micro</td>
+                    <td>9</td>
+                    <td>93.9%</td>
+                    <td>55%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 55%; background-color: #FF9800;">55%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>General Biology</td>
+                    <td>29</td>
+                    <td>81.6%</td>
+                    <td>37%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 37%; background-color: #FF9800;">37%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>General Psychology</td>
+                    <td>14</td>
+                    <td>79.6%</td>
+                    <td>21%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 21%; background-color: #F44336;">21%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Calculus 3B</td>
+                    <td>6</td>
+                    <td>78.3%</td>
+                    <td>16%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 16%; background-color: #F44336;">16%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Calculus 4A</td>
+                    <td>4</td>
+                    <td>68.8%</td>
+                    <td>0%</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 0%; background-color: #F44336;">0%</div>
+                        </div>
+                    </td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="alert-box">
+            <h2> Performance Concerns</h2>
+            <p>Students currently not achieving an A grade (below 90%):</p>
+            
+            <table>
+                <tr>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Current Score</th>
+                    <th>Required Improvement</th>
+                </tr>
+                
+                <tr>
+                    <td>Lucy Lu</td>
+                    <td>General Biology</td>
+                    <td class="grade-c-or-below">40.0%</td>
+                    <td>+50.0% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Irene Guo</td>
+                    <td>Calculus 4A</td>
+                    <td class="grade-c-or-below">45.8%</td>
+                    <td>+44.2% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Kyler Yuan</td>
+                    <td>Calculus 3B</td>
+                    <td class="grade-c-or-below">46.8%</td>
+                    <td>+43.2% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Zihan Yang</td>
+                    <td>General Biology</td>
+                    <td class="grade-c-or-below">49.5%</td>
+                    <td>+40.5% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Linquan Feng</td>
+                    <td>General Biology</td>
+                    <td class="grade-c-or-below">51.7%</td>
+                    <td>+38.3% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Yuling Zong</td>
+                    <td>General Biology</td>
+                    <td class="grade-c-or-below">51.8%</td>
+                    <td>+38.2% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>David Wu</td>
+                    <td>Calculus 3A</td>
+                    <td class="grade-c-or-below">60.0%</td>
+                    <td>+30.0% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Lucy Lu</td>
+                    <td>General Psychology</td>
+                    <td class="grade-c-or-below">63.8%</td>
+                    <td>+26.2% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Yiyi Hu</td>
+                    <td>General Biology</td>
+                    <td class="grade-c-or-below">64.3%</td>
+                    <td>+25.7% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Yiyi Hu</td>
+                    <td>General Psychology</td>
+                    <td class="grade-c-or-below">65.8%</td>
+                    <td>+24.2% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Haoming Wu</td>
+                    <td>Calculus 3A</td>
+                    <td class="grade-c-or-below">66.0%</td>
+                    <td>+24.0% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Ryan Xu</td>
+                    <td>General Biology</td>
+                    <td class="grade-c-or-below">68.6%</td>
+                    <td>+21.4% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Mia Fan</td>
+                    <td>General Psychology</td>
+                    <td class="grade-c-or-below">69.6%</td>
+                    <td>+20.4% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Tony Huang</td>
+                    <td>Calculus 3A</td>
+                    <td class="grade-c-or-below">70.0%</td>
+                    <td>+20.0% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Peter Deng</td>
+                    <td>Music Appreciation</td>
+                    <td class="grade-c-or-below">71.0%</td>
+                    <td>+19.0% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Nora Guo</td>
+                    <td>General Biology</td>
+                    <td class="grade-c-or-below">72.2%</td>
+                    <td>+17.8% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Elizabeth Liu</td>
+                    <td>Calculus 4A</td>
+                    <td class="grade-c-or-below">73.8%</td>
+                    <td>+16.2% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Jason Jiang</td>
+                    <td>General Biology</td>
+                    <td class="grade-c-or-below">75.4%</td>
+                    <td>+14.6% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Alice Zhou</td>
+                    <td>Calculus 4A</td>
+                    <td class="grade-c-or-below">75.6%</td>
+                    <td>+14.4% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Zihan Yang</td>
+                    <td>General Psychology</td>
+                    <td class="grade-c-or-below">75.8%</td>
+                    <td>+14.2% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Zixiu Wang</td>
+                    <td>General Psychology</td>
+                    <td class="grade-c-or-below">76.7%</td>
+                    <td>+13.3% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Ryan Xu</td>
+                    <td>General Psychology</td>
+                    <td class="grade-c-or-below">77.1%</td>
+                    <td>+12.9% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Linquan Feng</td>
+                    <td>General Psychology</td>
+                    <td class="grade-c-or-below">77.9%</td>
+                    <td>+12.1% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Yixuan Ying</td>
+                    <td>General Biology</td>
+                    <td class="grade-c-or-below">77.9%</td>
+                    <td>+12.1% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Nora Guo</td>
+                    <td>Calculus 3A</td>
+                    <td class="grade-c-or-below">78.0%</td>
+                    <td>+12.0% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Jerry Ren</td>
+                    <td>Calculus 3B</td>
+                    <td class="grade-c-or-below">78.5%</td>
+                    <td>+11.5% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Yuling Zong</td>
+                    <td>General Psychology</td>
+                    <td class="grade-c-or-below">79.2%</td>
+                    <td>+10.8% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Queenie Guo</td>
+                    <td>Calculus 3B</td>
+                    <td class="grade-c-or-below">79.3%</td>
+                    <td>+10.7% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Caroline Niu</td>
+                    <td>Calculus 4A</td>
+                    <td class="grade-b">80.2%</td>
+                    <td>+9.8% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Yixuan Ying</td>
+                    <td>General Psychology</td>
+                    <td class="grade-b">82.1%</td>
+                    <td>+7.9% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Nora Guo</td>
+                    <td>General Psychology</td>
+                    <td class="grade-b">82.5%</td>
+                    <td>+7.5% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Jack Yan</td>
+                    <td>Calculus 3B</td>
+                    <td class="grade-b">82.6%</td>
+                    <td>+7.4% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Peter Deng</td>
+                    <td>General Biology</td>
+                    <td class="grade-b">83.6%</td>
+                    <td>+6.4% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Elizabeth Liu</td>
+                    <td>General Biology</td>
+                    <td class="grade-b">83.9%</td>
+                    <td>+6.1% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Mia Fan</td>
+                    <td>General Biology</td>
+                    <td class="grade-b">84.3%</td>
+                    <td>+5.7% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Yu Mao</td>
+                    <td>General Biology</td>
+                    <td class="grade-b">84.3%</td>
+                    <td>+5.7% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Leyu Wang</td>
+                    <td>General Biology</td>
+                    <td class="grade-b">85.0%</td>
+                    <td>+5.0% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Yu Mao</td>
+                    <td>Principles of Economics-Micro</td>
+                    <td class="grade-b">85.0%</td>
+                    <td>+5.0% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Zixiu Wang</td>
+                    <td>General Biology</td>
+                    <td class="grade-b">85.7%</td>
+                    <td>+4.3% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Charles Fu</td>
+                    <td>General Psychology</td>
+                    <td class="grade-b">86.2%</td>
+                    <td>+3.8% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Irene Guo</td>
+                    <td>General Biology</td>
+                    <td class="grade-b">87.1%</td>
+                    <td>+2.9% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Lunett Huang</td>
+                    <td>General Biology</td>
+                    <td class="grade-b">87.1%</td>
+                    <td>+2.9% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Charles Fu</td>
+                    <td>Calculus 3A</td>
+                    <td class="grade-b">88.0%</td>
+                    <td>+2.0% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>David Wu</td>
+                    <td>Principles of Economics-Micro</td>
+                    <td class="grade-b">88.0%</td>
+                    <td>+2.0% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Tony Huang</td>
+                    <td>Principles of Economics-Micro</td>
+                    <td class="grade-b">88.2%</td>
+                    <td>+1.8% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Jack Yan</td>
+                    <td>General Biology</td>
+                    <td class="grade-b">88.6%</td>
+                    <td>+1.4% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Peter Deng</td>
+                    <td>Calculus 3B</td>
+                    <td class="grade-b">88.7%</td>
+                    <td>+1.3% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Zhiye Chen</td>
+                    <td>Introduction to Sociology</td>
+                    <td class="grade-b">88.8%</td>
+                    <td>+1.2% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Haoming Wu</td>
+                    <td>Principles of Economics-Micro</td>
+                    <td class="grade-b">89.6%</td>
+                    <td>+0.4% needed for A</td>
+                </tr>
+                
+                <tr>
+                    <td>Elizabeth Liu</td>
+                    <td>Introduction to Statistics</td>
+                    <td class="grade-b">89.8%</td>
+                    <td>+0.2% needed for A</td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="warning-box">
+            <h2> At-Risk Students</h2>
+            <p>Students at risk of dropping from A to B (scores between 90-92%):</p>
+            
+            <table>
+                <tr>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Current Score</th>
+                </tr>
+                
+                <tr>
+                    <td>Gavin Wang</td>
+                    <td>General Biology</td>
+                    <td class="grade-a">92.9%</td>
+                </tr>
+                
+                <tr>
+                    <td>Jason Jiang</td>
+                    <td>General Psychology</td>
+                    <td class="grade-a">92.1%</td>
+                </tr>
+                
+                <tr>
+                    <td>Jerry Ren</td>
+                    <td>General Biology</td>
+                    <td class="grade-a">90.7%</td>
+                </tr>
+                
+                <tr>
+                    <td>Kyler Yuan</td>
+                    <td>Music Appreciation</td>
+                    <td class="grade-a">92.1%</td>
+                </tr>
+                
+                <tr>
+                    <td>Kyler Yuan</td>
+                    <td>General Biology</td>
+                    <td class="grade-a">91.1%</td>
+                </tr>
+                
+                <tr>
+                    <td>Lunett Huang</td>
+                    <td>Critical Reasoning/Read/Write</td>
+                    <td class="grade-a">92.9%</td>
+                </tr>
+                
+                <tr>
+                    <td>Peter Deng</td>
+                    <td>Introduction to Statistics</td>
+                    <td class="grade-a">92.9%</td>
+                </tr>
+                
+                <tr>
+                    <td>Raymond Zhou</td>
+                    <td>Calculus 3A</td>
+                    <td class="grade-a">92.0%</td>
+                </tr>
+                
+                <tr>
+                    <td>Siru Tong</td>
+                    <td>Calculus 3A</td>
+                    <td class="grade-a">92.0%</td>
+                </tr>
+                
+                <tr>
+                    <td>Yu Mao</td>
+                    <td>Critical Reasoning/Read/Write</td>
+                    <td class="grade-a">90.3%</td>
+                </tr>
+                
+                <tr>
+                    <td>Yuchen Wang</td>
+                    <td>General Psychology</td>
+                    <td class="grade-a">91.0%</td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2> Top Performers</h2>
+            <p>Students with exceptional performance (scoring above 100%):</p>
+            
+            <table>
+                <tr>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Score</th>
+                </tr>
+                
+                <tr>
+                    <td>Caroline Niu</td>
+                    <td>Critical Reasoning/Read/Write</td>
+                    <td class="grade-a">105.7%</td>
+                </tr>
+                
+                <tr>
+                    <td>Raymond Zhou</td>
+                    <td>Critical Reasoning/Read/Write</td>
+                    <td class="grade-a">103.6%</td>
+                </tr>
+                
+                <tr>
+                    <td>Alice Zhou</td>
+                    <td>Critical Reasoning/Read/Write</td>
+                    <td class="grade-a">103.2%</td>
+                </tr>
+                
+                <tr>
+                    <td>Alice Zhou</td>
+                    <td>Principles of Economics-Micro</td>
+                    <td class="grade-a">102.8%</td>
+                </tr>
+                
+                <tr>
+                    <td>Elizabeth Liu</td>
+                    <td>Critical Reasoning/Read/Write</td>
+                    <td class="grade-a">102.1%</td>
+                </tr>
+                
+                <tr>
+                    <td>Irene Guo</td>
+                    <td>Introduction to Sociology</td>
+                    <td class="grade-a">101.9%</td>
+                </tr>
+                
+                <tr>
+                    <td>Caroline Niu</td>
+                    <td>Introduction to Sociology</td>
+                    <td class="grade-a">101.7%</td>
+                </tr>
+                
+                <tr>
+                    <td>Raymond Zhou</td>
+                    <td>Principles of Economics-Micro</td>
+                    <td class="grade-a">101.4%</td>
+                </tr>
+                
+                <tr>
+                    <td>Siru Tong</td>
+                    <td>Principles of Economics-Micro</td>
+                    <td class="grade-a">101.2%</td>
+                </tr>
+                
+                <tr>
+                    <td>Huilin Yu</td>
+                    <td>Introduction to Sociology</td>
+                    <td class="grade-a">101.1%</td>
+                </tr>
+                
+                <tr>
+                    <td>Elizabeth Liu</td>
+                    <td>Introduction to Sociology</td>
+                    <td class="grade-a">100.5%</td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2> Students Needing Immediate Outreach</h2>
+            <p>Priority students who need academic intervention:</p>
+            
+            <ul>
+                
+                <li><strong>Peter Deng</strong>: Underperforming in 3 courses</li>
+                
+                <li><strong>Nora Guo</strong>: Underperforming in 3 courses</li>
+                
+                <li><strong>Elizabeth Liu</strong>: Underperforming in 3 courses</li>
+                
+                <li><strong>Lucy Lu</strong>: Very low scores in: General Biology (40.0%)</li>
+                
+                <li><strong>Irene Guo</strong>: Very low scores in: Calculus 4A (45.8%)</li>
+                
+                <li><strong>Kyler Yuan</strong>: Very low scores in: Calculus 3B (46.8%)</li>
+                
+                <li><strong>Zihan Yang</strong>: Very low scores in: General Biology (49.5%)</li>
+                
+                <li><strong>Linquan Feng</strong>: Very low scores in: General Biology (51.7%)</li>
+                
+                <li><strong>Yuling Zong</strong>: Very low scores in: General Biology (51.8%)</li>
+                
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>This is an automated message from the Canvas API Academic Data Collector.</p>
+        <p>Version 1.0 | April 02, 2025</p>
+        <p>Details: 45 students processed | 12 courses analyzed | Batch ID: 250402-1025</p>
+    </div>
+
+    <div class="footer">
+        <p><strong>Note:</strong> Precalculus has been excluded from this analysis due to data inconsistencies.</p>
+        <div style="text-align: center; margin-top: 20px;">
+            <img src="data:image/png;base64,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" alt="Beecoming Logo" style="max-width: 150px; height: auto;">
+            <p>Powered by Beecoming Inc.</p>
+        </div>
+        
+    <div style="margin-top: 30px; border-top: 1px solid #ddd; padding-top: 15px; font-size: 12px; color: #666;">
+        <h3 style="margin-bottom: 10px; color: #444;">Privacy Statement</h3>
+        <p>This report contains sensitive student academic data and is intended solely for authorized educational personnel. 
+        The information in this report is confidential and must not be shared, distributed, or disclosed to unauthorized 
+        individuals. Unauthorized disclosure may violate student privacy regulations and institutional policies.</p>
+        
+        <h3 style="margin: 15px 0 10px 0; color: #444;">隐私声明</h3>
+        <p>本报告包含敏感的学生学术数据，仅供授权教育人员使用。
+        报告中的信息为机密信息，不得与未经授权的个人共享、分发或披露。
+        未经授权的披露可能违反学生隐私法规和机构政策。</p>
+        
+        <p style="margin-top: 20px; text-align: center;">Developed by Karthus | © 2025 Beecoming Inc.</p>
+    </div>
+    
+    </div>
+    
+</body>
+</html> 
