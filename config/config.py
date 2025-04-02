@@ -4,10 +4,10 @@ from dotenv import load_dotenv
 import logging
 
 # Load environment variables from .env file
-load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
 
 # Path to credentials file (stored outside version control)
-CREDENTIALS_FILE = os.getenv("CREDENTIALS_FILE", "credentials.json")
+CREDENTIALS_FILE = os.getenv("CREDENTIALS_FILE", os.path.join(os.path.dirname(__file__), "credentials.json"))
 
 # Function to load all student credentials
 def load_student_credentials():

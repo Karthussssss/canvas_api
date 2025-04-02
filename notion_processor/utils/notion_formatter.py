@@ -4,6 +4,8 @@ import pandas as pd
 from typing import List, Dict, Any
 from datetime import datetime
 import sys
+import logging
+from config import COURSE_NAME_TO_CHINESE
 
 # Ensure parent directory is in path to import from root
 parent_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -12,7 +14,6 @@ if parent_dir not in sys.path:
 
 # Now import from the parent project
 from utils.error_handler import handle_file_error
-from config import COURSE_NAME_TO_CHINESE
 from notion_processor.utils.batch_manager import get_current_batch
 
 class NotionFormatter:

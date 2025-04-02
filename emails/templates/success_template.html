@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+        }
+        .summary {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .footer {
+            background-color: #f1f1f1;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.8em;
+            color: #666;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>✅ Canvas Grades Collection Success</h1>
+        <p>Run Time: {{timestamp}}</p>
+    </div>
+    
+    <div class="content">
+        <h2>Canvas API Academic Data Collector completed successfully!</h2>
+        
+        <div class="summary">
+            <h3>Summary:</h3>
+            <ul>
+                <li><strong>Students processed:</strong> {{students_processed}}</li>
+                <li><strong>Records added to Notion:</strong> {{records_added}}</li>
+                <li><strong>Execution time:</strong> {{execution_time}}</li>
+                <li><strong>Batch ID:</strong> {{batch_id}}</li>
+            </ul>
+        </div>
+        
+        <h3>Course Statistics:</h3>
+        <table>
+            <tr>
+                <th>Course Name</th>
+                <th>Students Enrolled</th>
+                <th>Average Score</th>
+            </tr>
+            {{course_stats}}
+        </table>
+        
+        <p>Full logs available in: <code>logs/canvas_api.log</code></p>
+    </div>
+    
+    <div class="footer">
+        <p>This is an automated message from the Canvas API Academic Data Collector.</p>
+        <p>Version 1.0 | {{date}}</p>
+    </div>
+</body>
+</html>

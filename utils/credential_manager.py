@@ -5,7 +5,7 @@ from typing import Dict, Optional
 from utils.error_handler import handle_api_error, handle_credentials_error
 
 class CredentialManager:
-    def __init__(self, credentials_file: str = "credentials.json"):
+    def __init__(self, credentials_file: str = "config/credentials.json"):
         self.credentials_file = credentials_file
         self.credentials = self._load_credentials()
 
@@ -97,8 +97,67 @@ class CredentialManager:
 
     def get_student_credentials(self, student_name: str) -> Optional[Dict]:
         """Get credentials for a specific student"""
-        return self.credentials.get(student_name)
+        try:
+            return self.credentials.get(student_name)
+        except Exception as e:
+            handle_credentials_error(student_name, e)
+            return None
+
+    def save_student_credentials(self, student_name: str, credentials: Dict) -> bool:
+        """Save credentials for a specific student"""
+        try:
+            self.credentials[student_name] = credentials
+            self._save_credentials()
+            return True
+        except Exception as e:
+            handle_credentials_error(student_name, e)
+            return False
+
+    def delete_student_credentials(self, student_name: str) -> bool:
+        """Delete credentials for a specific student"""
+        try:
+            if student_name in self.credentials:
+                del self.credentials[student_name]
+                self._save_credentials()
+                return True
+            return False
+        except Exception as e:
+            handle_credentials_error(student_name, e)
+            return False
 
     def get_all_student_names(self) -> list:
-        """Get list of all student names"""
-        return list(self.credentials.keys()) 
+        """Get all student names from credentials file"""
+        try:
+            return list(self.credentials.keys())
+        except Exception as e:
+            handle_credentials_error("system", e)
+            return []
+
+    def check_api_access(self, student_name: str) -> bool:
+        """Check if the API key for a student is valid"""
+        try:
+            credentials = self.get_student_credentials(student_name)
+            if not credentials:
+                return False
+                
+            api_key = credentials.get("api_key")
+            domain = credentials.get("domain")
+            
+            if not api_key or not domain:
+                return False
+                
+            # Make a test request to the Canvas API
+            url = f"https://{domain}/api/v1/users/self/profile"
+            headers = {"Authorization": f"Bearer {api_key}"}
+            
+            response = requests.get(url, headers=headers)
+            
+            if response.status_code == 200:
+                return True
+            else:
+                handle_api_error(student_name, response)
+                return False
+                
+        except Exception as e:
+            handle_credentials_error(student_name, e)
+            return False 

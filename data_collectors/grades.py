@@ -1,5 +1,7 @@
-from typing import Dict, Any, List
-from .base_collector import BaseCollector
+import requests
+import time
+from typing import Dict, List, Optional, Any
+from data_collectors.base_collector import BaseCollector
 from config import COURSE_NAME_TO_CHINESE, STUDENT_TO_CHINESE_NAME, STUDENT_TO_PREFERRED_ENGLISH_NAME, convert_score_to_grade
 
 class GradesCollector(BaseCollector):

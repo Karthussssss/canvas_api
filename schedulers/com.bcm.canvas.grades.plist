@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.bcm.canvas.grades</string>
+    
+    <!-- Program to run -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/python3</string>
+        <string>REPLACE_WITH_FULL_PATH_TO_PROJECT/main.py</string>
+    </array>
+    
+    <!-- Working directory -->
+    <key>WorkingDirectory</key>
+    <string>REPLACE_WITH_FULL_PATH_TO_PROJECT</string>
+    
+    <!-- Run at 8:00 AM daily -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>8</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+    
+    <!-- Also run when LaunchAgent is loaded (e.g., at login) -->
+    <key>RunAtLoad</key>
+    <true/>
+    
+    <!-- Only run if it hasn't run in the last 20 hours (prevent duplicate runs) -->
+    <key>StartInterval</key>
+    <integer>72000</integer>
+    
+    <!-- Standard out and error files -->
+    <key>StandardOutPath</key>
+    <string>REPLACE_WITH_FULL_PATH_TO_PROJECT/logs/canvas_agent.log</string>
+    <key>StandardErrorPath</key>
+    <string>REPLACE_WITH_FULL_PATH_TO_PROJECT/logs/canvas_agent_error.log</string>
+    
+    <!-- Environmental variables -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>PYTHONPATH</key>
+        <string>REPLACE_WITH_FULL_PATH_TO_PROJECT</string>
+    </dict>
+    
+    <!-- Keep the agent running (restart on crash) -->
+    <key>KeepAlive</key>
+    <false/>
+    
+    <!-- Throttle restarts to not overwhelm system -->
+    <key>ThrottleInterval</key>
+    <integer>60</integer>
+</dict>
+</plist> 
