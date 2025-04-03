@@ -278,6 +278,16 @@ class NotionClient:
             # Always create new records for each row in the DataFrame
             for _, row in df.iterrows():
                 student_name = row["student_name"]
+                
+                # Ensure student name fields are preserved and not None or empty strings
+                # This fixes the issue with missing student_chinese_name and student_english_name
+                if row.get("student_chinese_name") is None or str(row.get("student_chinese_name")).strip() == "":
+                    print(f"⚠️ Missing Chinese name for student {student_name}")
+                
+                if row.get("student_english_name") is None or str(row.get("student_english_name")).strip() == "":
+                    print(f"⚠️ Missing English name for student {student_name}")
+                
+                # Prepare properties for Notion
                 properties = self._prepare_page_properties(row)
                 
                 # Create a new page in the database

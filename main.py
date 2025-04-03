@@ -12,7 +12,7 @@ if config_dir not in sys.path:
     sys.path.insert(0, config_dir)
 
 # Now import from config
-from config import GRADES_CSV_PATH
+from config import GRADES_CSV_PATH, STUDENT_TO_CHINESE_NAME, STUDENT_TO_PREFERRED_ENGLISH_NAME
 
 # Add the notion_processor directory to the path
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "notion_processor"))
@@ -109,12 +109,24 @@ def collect_grades():
     print("\n--- Grades collection completed ---")
     logging.info("Grades collection completed")
 
+def debug_student_mappings():
+    """Print student name mappings for debugging"""
+    print("\n--- Debugging Student Name Mappings ---")
+    for student_name in STUDENT_TO_CHINESE_NAME.keys():
+        chinese_name = STUDENT_TO_CHINESE_NAME.get(student_name, "")
+        english_name = STUDENT_TO_PREFERRED_ENGLISH_NAME.get(student_name, "")
+        print(f"Canvas name: {student_name} -> Chinese: {chinese_name}, English: {english_name}")
+    print("--- End of Student Name Mappings ---\n")
+
 def main():
     """Main entry point for Canvas API client."""
     
     start_time = datetime.now()
     print(f"\n--- Starting grades collection at {start_time} ---")
     logging.info(f"Starting grades collection at {start_time}")
+    
+    # Debug student name mappings
+    debug_student_mappings()
     
     # Initialize email notifier
     email_notifier = EmailNotifier()

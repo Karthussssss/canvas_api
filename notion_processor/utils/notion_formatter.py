@@ -139,10 +139,39 @@ class NotionFormatter:
             
             # Group by student
             for student_name, group in latest_grades.groupby('student_name'):
+                # Extract student names - make sure they are not empty strings or NaN
+                student_cn_name = group['student_chinese_name'].iloc[0] 
+                if pd.isna(student_cn_name) or student_cn_name == "":
+                    # Try to get from STUDENT_TO_CHINESE_NAME mapping as fallback
+                    try:
+                        # Re-import to get the most updated data
+                        import sys
+                        sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "config"))
+                        from config import STUDENT_TO_CHINESE_NAME
+                        student_cn_name = STUDENT_TO_CHINESE_NAME.get(student_name, "")
+                        print(f"Using fallback Chinese name for {student_name}: {student_cn_name}")
+                    except Exception as e:
+                        print(f"Error loading Chinese name for {student_name}: {str(e)}")
+                        student_cn_name = ""
+                
+                student_en_name = group['student_english_name'].iloc[0]
+                if pd.isna(student_en_name) or student_en_name == "":
+                    # Try to get from STUDENT_TO_PREFERRED_ENGLISH_NAME mapping as fallback
+                    try:
+                        # Re-import to get the most updated data
+                        import sys
+                        sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "config"))
+                        from config import STUDENT_TO_PREFERRED_ENGLISH_NAME
+                        student_en_name = STUDENT_TO_PREFERRED_ENGLISH_NAME.get(student_name, "")
+                        print(f"Using fallback English name for {student_name}: {student_en_name}")
+                    except Exception as e:
+                        print(f"Error loading English name for {student_name}: {str(e)}")
+                        student_en_name = ""
+                
                 row = {
                     'student_name': student_name,
-                    'student_chinese_name': group['student_chinese_name'].iloc[0],
-                    'student_english_name': group['student_english_name'].iloc[0],
+                    'student_chinese_name': student_cn_name if not pd.isna(student_cn_name) else "",
+                    'student_english_name': student_en_name if not pd.isna(student_en_name) else "",
                     'Is Latest Batch': True  # Set to True for all new records
                 }
                 
