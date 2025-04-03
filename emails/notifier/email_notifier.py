@@ -16,8 +16,9 @@ if parent_dir not in sys.path:
 # Import the enhanced email notifier
 from emails.notifier.enhanced_email_notifier import EnhancedEmailNotifier
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from config/.env
+env_path = os.path.join(parent_dir, "config", ".env")
+load_dotenv(env_path)
 
 class EmailNotifier:
     def __init__(self):
@@ -61,6 +62,7 @@ class EmailNotifier:
                 <pre>{message_body}</pre>
                 <hr>
                 <p>This is an automated message from the Canvas API Academic Data Collector.</p>
+                <p>Powered by Beecoming Inc.</p>
             </body>
             </html>
             """
@@ -87,7 +89,7 @@ class EmailNotifier:
     def send_success_notification(self, students_processed, records_added):
         """Send a success notification with summary of the run and enhanced report."""
         try:
-            # Try to send the enhanced report
+            # Try to send the enhanced report using our improved report generator
             return self.enhanced_notifier.send_enhanced_report(students_processed, records_added)
         except Exception as e:
             print(f"Error sending enhanced report: {str(e)}. Falling back to simple notification.")

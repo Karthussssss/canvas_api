@@ -113,6 +113,23 @@ def generate_email_html(grades_csv_path: str, template_path: str, output_path: s
     
     # Calculate course statistics
     courses_data = []
+    
+    # Course to Notion page links
+    COURSE_NOTION_LINKS = {
+        'Calculus 3A': 'https://www.notion.so/beecominghz/Calculus-3A-S9723-2025S-MATH-3A-1c89efeede7b80a2b393f31fe9864d84?pvs=4',
+        'Calculus 3B': 'https://www.notion.so/beecominghz/Calculus-3B-S9724-2025S-MATH-3B-1c89efeede7b806da355fe5786cd10f3?pvs=4',
+        'Calculus 4A': 'https://www.notion.so/beecominghz/Calculus-4A-S0516-2025S-MATH-4A-1c89efeede7b80b0ab98c1b2cf18f87e?pvs=4',
+        'Introduction to Statistics': 'https://www.notion.so/beecominghz/Introduction-to-Statistics-S9725-2025S-MATH-14-1c89efeede7b80e68ec6d2bf3b4961c4?pvs=4',
+        'General Biology': 'https://www.notion.so/beecominghz/General-Biology-S9768-2025S-BIOL-10-1c89efeede7b80389d65fa0a81f5efca?pvs=4',
+        'General Psychology': 'https://www.notion.so/beecominghz/General-Psychology-S9987-2025S-PSYC-1A-1c89efeede7b803a8173de525af2dfa0?pvs=4',
+        'Introduction to Sociology': 'https://www.notion.so/beecominghz/Introduction-to-Sociology-S9999-2025S-SOC-1-1c89efeede7b80229f87e92036658383?pvs=4',
+        'Principles of Economics-Micro': 'https://www.notion.so/beecominghz/Principles-of-Economics-Micro-S0031-2025S-ECON-1A-1c89efeede7b808d8f75f707eb566df1?pvs=4',
+        'Introduction to Ethnic Studies': 'https://www.notion.so/beecominghz/Introduction-to-Ethnic-Studies-S9906-2025S-ETHS-1-1c89efeede7b809ba52bec16bf4d5f64?pvs=4',
+        'Music Appreciation': 'https://www.notion.so/beecominghz/Music-Appreciation-S8262-2025S-MUS-10-1c89efeede7b809896d5c6ca2ae03284?pvs=4',
+        'Introduction to Art': 'https://www.notion.so/beecominghz/Introduction-to-Art-S8279-2025S-ART-1-1c89efeede7b80d481a4d20ee5e8ba18?pvs=4',
+        'Critical Reasoning/Read/Write': 'https://www.notion.so/beecominghz/Critical-Reasoning-Read-Write-S9853-2025S-ENGL-1C-1c89efeede7b8043ab53e6c0d592d66f?pvs=4'
+    }
+    
     for course in course_columns:
         # IMPORTANT: Filter out N/A and empty values to only include enrolled students
         course_df = df[df[course] != "N/A"]
@@ -136,8 +153,14 @@ def generate_email_html(grades_csv_path: str, template_path: str, output_path: s
         a_count = len(course_df[course_df[course] >= 90])
         a_grade_percent = int((a_count / student_count) * 100) if student_count > 0 else 0
         
+        # Create link for course name if available
+        course_name = course
+        if course in COURSE_NOTION_LINKS:
+            course_name = f'<a href="{COURSE_NOTION_LINKS[course]}" target="_blank" style="color: #2196F3; text-decoration: none;">{course}</a>'
+        
         courses_data.append({
-            "name": course,
+            "name": course_name,
+            "raw_name": course,  # Keep the raw name for sorting
             "student_count": student_count,  # This is now actual enrollment count
             "avg_score": f"{avg_score:.1f}",
             "a_grade_percent": a_grade_percent,
@@ -195,7 +218,7 @@ def generate_email_html(grades_csv_path: str, template_path: str, output_path: s
     # Sort underperforming students by score (ascending) - show all without limit
     underperforming_students = sorted(underperforming_students, key=lambda x: float(x["score"]))
     
-    # Find at-risk students (90-92%)
+    # Find at-risk students (90-92.5%)
     at_risk_students = []
     
     for _, row in df.iterrows():
@@ -208,7 +231,7 @@ def generate_email_html(grades_csv_path: str, template_path: str, output_path: s
                 
             try:
                 score = float(row[course])
-                if 90 <= score < 93:
+                if 90 <= score < 92.5:
                     at_risk_students.append({
                         "name": student_name,
                         "course": course,
@@ -285,6 +308,33 @@ def generate_email_html(grades_csv_path: str, template_path: str, output_path: s
     # Calculate success rate (always 100% as we're only processing successful records)
     students_success_rate = 100
     
+    # Format course enrollment information
+    course_enrollment_html = ""
+    # Fix sorting error by using raw course names without attempting to use COURSE_NOTION_LINKS for sorting
+    ordered_courses = sorted(course_columns)
+    
+    for course_col in ordered_courses:
+        course_name = course_col.replace('Score: ', '')
+        count = len(df[df[course_col] != "N/A"])
+        avg_score = df[course_col][df[course_col] != "N/A"].mean() if course_col in df.columns else "N/A"
+        
+        # Check if we have a Notion link for this course
+        course_display = course_name
+        if course_name in COURSE_NOTION_LINKS:
+            course_display = f'<a href="{COURSE_NOTION_LINKS[course_name]}" target="_blank" style="color: #2196F3; text-decoration: none; font-weight: bold;">{course_name}</a>'
+        
+        # Format average score properly
+        formatted_avg = f"{avg_score:.1f}" if isinstance(avg_score, (int, float)) else "N/A"
+        
+        # Format with the average score and hyperlink if available
+        course_enrollment_html += f"""
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd;">{course_display}</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{count}</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{formatted_avg}</td>
+        </tr>
+        """
+    
     # Prepare template context
     context = {
         "timestamp": timestamp,
@@ -293,15 +343,15 @@ def generate_email_html(grades_csv_path: str, template_path: str, output_path: s
         "students_processed": students_processed,
         "students_success_rate": students_success_rate,
         "course_count": course_count,
-        "average_score": average_score,  # Using average score instead of GPA
-        "average_gpa": average_score,    # Also provide as average_gpa for backward compatibility
         "a_grade_percentage": a_grade_percentage,
+        "average_gpa": average_score,  # We're using average score instead of GPA
         "courses_sorted": courses_sorted,
         "underperforming_students": underperforming_students,
         "at_risk_students": at_risk_students,
         "top_performers": top_performers,
         "priority_students": priority_students,
-        "logo_base64": logo_base64  # Add the base64 encoded logo
+        "logo_base64": logo_base64,  # Add the base64 encoded logo
+        "course_enrollment_html": course_enrollment_html
     }
     
     # Create a modified template with average score instead of GPA
@@ -314,6 +364,33 @@ def generate_email_html(grades_csv_path: str, template_path: str, output_path: s
             "<head>",
             '<head>\n    <meta charset="UTF-8">'
         )
+    
+    # Add CSS to fix small percentage display in progress bars
+    if "</style>" in template_content:
+        fix_small_percentage_css = """
+        .progress-bar {
+            min-width: 30px; /* Ensure minimum width for small percentages */
+            position: relative; /* For positioning the text */
+        }
+        .progress-bar::after {
+            content: attr(data-percent);
+            position: absolute;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+        }
+        """
+        template_content = template_content.replace(
+            "</style>",
+            f"{fix_small_percentage_css}\n    </style>"
+        )
+    
+    # Fix percentage display in progress bars - use data attribute for percentage
+    template_content = template_content.replace(
+        '<div class="progress-bar" style="width: {{ course.a_grade_percent }}%; background-color: {{ course.color }};">{{ course.a_grade_percent }}</div>',
+        '<div class="progress-bar" style="width: {{ course.a_grade_percent }}%; background-color: {{ course.color }};" data-percent="{{ course.a_grade_percent }}%"></div>'
+    )
     
     # Replace GPA text with Average Score
     template_content = template_content.replace(
@@ -364,6 +441,12 @@ def generate_email_html(grades_csv_path: str, template_path: str, output_path: s
         "<h2>Students Needing Immediate Outreach</h2>"
     )
     
+    # Update the description of at-risk students to match the actual filtering criteria
+    template_content = template_content.replace(
+        "<p>Students at risk of dropping from A to B (scores between 90-92%):</p>",
+        "<p>Students at risk of dropping from A to B (scores between 90-92.5%):</p>"
+    )
+    
     # Attempt to catch any other problematic characters
     for i in range(0x1F300, 0x1F6FF):
         template_content = template_content.replace(chr(i), '')
@@ -371,7 +454,7 @@ def generate_email_html(grades_csv_path: str, template_path: str, output_path: s
     # Add logo to header
     logo_header = f'''
     <div style="text-align: center; margin-bottom: 20px;">
-        <img src="{logo_base64}" alt="Beecoming Logo" style="max-width: 200px; height: auto;">
+        <img src="{logo_base64}" alt="Beecoming Logo" style="max-width: 150px; height: auto;">
     </div>
     '''
     

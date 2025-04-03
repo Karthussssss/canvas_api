@@ -23,8 +23,9 @@ if parent_dir not in sys.path:
 # Now import from parent project
 from emails.report_generator import generate_email_html
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from config/.env
+env_path = os.path.join(parent_dir, "config", ".env")
+load_dotenv(env_path)
 
 class EnhancedEmailNotifier:
     def __init__(self):
@@ -85,14 +86,18 @@ class EnhancedEmailNotifier:
             # Ensure output directory exists
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
             
-            # Generate the HTML report
-            html_content = generate_email_html(grades_csv_path, template_path, output_path)
+            # Generate the HTML report using our improved report generator
+            generate_email_html(grades_csv_path, template_path, output_path)
+            
+            # Read the HTML content from the file
+            with open(output_path, 'r', encoding='utf-8') as f:
+                html_content = f.read()
             
             # Get the date for the subject line
             today = datetime.datetime.now().strftime("%Y-%m-%d")
             
             # Send the email
-            subject = f"📊 Canvas Grades Report: Performance Summary & Alerts [{today}]"
+            subject = f"📊 Canvas Grades Report: Performance Summary [{today}]"
             return self.send_notification(subject, html_content, is_success=True)
             
         except Exception as e:
@@ -127,7 +132,8 @@ class EnhancedEmailNotifier:
             </div>
             <div style="background-color: #f1f1f1; padding: 10px; text-align: center; font-size: 0.8em; color: #666;">
                 <p>This is an automated message from the Canvas API Academic Data Collector.</p>
-                <p>Version 1.0 | {timestamp.split()[0]}</p>
+                <p>Powered by Beecoming Inc.</p>
+                <p>© {datetime.datetime.now().year} Beecoming Inc.</p>
             </div>
         </body>
         </html>
@@ -156,7 +162,8 @@ class EnhancedEmailNotifier:
             </div>
             <div style="background-color: #f1f1f1; padding: 10px; text-align: center; font-size: 0.8em; color: #666;">
                 <p>This is an automated message from the Canvas API Academic Data Collector.</p>
-                <p>Version 1.0 | {timestamp.split()[0]}</p>
+                <p>Powered by Beecoming Inc.</p>
+                <p>© {datetime.datetime.now().year} Beecoming Inc.</p>
             </div>
         </body>
         </html>

@@ -379,3 +379,193 @@
 2025-04-02 10:29:35,449 - root - INFO - Duration: 0:03:54.421537
 2025-04-02 10:29:35,449 - root - INFO - Students processed: 45
 2025-04-02 10:29:35,449 - root - INFO - Records added: 0
+2025-04-03 08:32:47,080 - root - ERROR - Failed to load credentials: Credentials file not found: credentials.json
+2025-04-03 08:32:47,615 - root - INFO - Starting grades collection at 2025-04-03 08:32:47.615302
+2025-04-03 08:32:47,615 - root - INFO - Update Batch ID: 250403-0832
+2025-04-03 08:32:47,615 - root - INFO - Found 45 students in credentials file.
+2025-04-03 08:32:47,615 - root - INFO - Processing student: Yu Huilin
+2025-04-03 08:32:50,122 - root - INFO - Successfully collected grades for Yu Huilin
+2025-04-03 08:32:50,123 - root - INFO - Processing student: Chen Zhiye
+2025-04-03 08:32:52,241 - root - INFO - Successfully collected grades for Chen Zhiye
+2025-04-03 08:32:52,241 - root - INFO - Processing student: Xu Haoyuan
+2025-04-03 08:32:54,327 - root - INFO - Successfully collected grades for Xu Haoyuan
+2025-04-03 08:32:54,327 - root - INFO - Processing student: Shan Tianhao
+2025-04-03 08:32:56,308 - root - INFO - Successfully collected grades for Shan Tianhao
+2025-04-03 08:32:56,308 - root - INFO - Processing student: Wu Yanhan
+2025-04-03 08:32:58,523 - root - INFO - Successfully collected grades for Wu Yanhan
+2025-04-03 08:32:58,523 - root - INFO - Processing student: Niu Guman
+2025-04-03 08:33:00,419 - root - INFO - Successfully collected grades for Niu Guman
+2025-04-03 08:33:00,419 - root - INFO - Processing student: Guo Yutong
+2025-04-03 08:33:02,623 - root - INFO - Successfully collected grades for Guo Yutong
+2025-04-03 08:33:02,623 - root - INFO - Processing student: Liu Yifan
+2025-04-03 08:33:04,799 - root - INFO - Successfully collected grades for Liu Yifan
+2025-04-03 08:33:04,799 - root - INFO - Processing student: Zhou Xinran
+2025-04-03 08:33:06,731 - root - INFO - Successfully collected grades for Zhou Xinran
+2025-04-03 08:33:06,733 - root - INFO - Processing student: Tong Siru
+2025-04-03 08:33:08,614 - root - INFO - Successfully collected grades for Tong Siru
+2025-04-03 08:33:08,614 - root - INFO - Processing student: Chow Mun Hin
+2025-04-03 08:33:10,540 - root - INFO - Successfully collected grades for Chow Mun Hin
+2025-04-03 08:33:10,541 - root - INFO - Processing student: Huang Sihan
+2025-04-03 08:33:12,601 - root - INFO - Successfully collected grades for Huang Sihan
+2025-04-03 08:33:12,601 - root - INFO - Processing student: Mao Yu
+2025-04-03 08:33:14,567 - root - INFO - Successfully collected grades for Mao Yu
+2025-04-03 08:33:14,568 - root - INFO - Processing student: Wang Zhiyu
+2025-04-03 08:33:16,526 - root - INFO - Successfully collected grades for Wang Zhiyu
+2025-04-03 08:33:16,527 - root - INFO - Processing student: Deng Caihaoxuan
+2025-04-03 08:33:18,666 - root - INFO - Successfully collected grades for Deng Caihaoxuan
+2025-04-03 08:33:18,666 - root - INFO - Processing student: Yuan Man
+2025-04-03 08:33:20,765 - root - INFO - Successfully collected grades for Yuan Man
+2025-04-03 08:33:20,766 - root - INFO - Processing student: Guo Zirui
+2025-04-03 08:33:22,995 - root - INFO - Successfully collected grades for Guo Zirui
+2025-04-03 08:33:22,995 - root - INFO - Processing student: Guo Yuhan
+2025-04-03 08:33:24,882 - root - INFO - Successfully collected grades for Guo Yuhan
+2025-04-03 08:33:24,882 - root - INFO - Processing student: Ren Xizhi
+2025-04-03 08:33:27,062 - root - INFO - Successfully collected grades for Ren Xizhi
+2025-04-03 08:33:27,062 - root - INFO - Processing student: Yan Zijie
+2025-04-03 08:33:29,122 - root - INFO - Successfully collected grades for Yan Zijie
+2025-04-03 08:33:29,122 - root - INFO - Processing student: Fu Zichang
+2025-04-03 08:33:31,345 - root - INFO - Successfully collected grades for Fu Zichang
+2025-04-03 08:33:31,345 - root - INFO - Processing student: Jiang Chenghao
+2025-04-03 08:33:34,105 - root - INFO - Successfully collected grades for Jiang Chenghao
+2025-04-03 08:33:34,106 - root - INFO - Processing student: Ying Yixuan
+2025-04-03 08:33:53,308 - root - INFO - Successfully collected grades for Ying Yixuan
+2025-04-03 08:33:53,309 - root - INFO - Processing student: Fan Xingzhu
+2025-04-03 08:33:55,404 - root - INFO - Successfully collected grades for Fan Xingzhu
+2025-04-03 08:33:55,404 - root - INFO - Processing student: Lu Xinyi
+2025-04-03 08:33:57,686 - root - INFO - Successfully collected grades for Lu Xinyi
+2025-04-03 08:33:57,687 - root - INFO - Processing student: Xu Ruijian
+2025-04-03 08:33:59,676 - root - INFO - Successfully collected grades for Xu Ruijian
+2025-04-03 08:33:59,677 - root - INFO - Processing student: Feng Linquan
+2025-04-03 08:34:01,732 - root - INFO - Successfully collected grades for Feng Linquan
+2025-04-03 08:34:01,732 - root - INFO - Processing student: Wang Zixiu
+2025-04-03 08:34:03,859 - root - INFO - Successfully collected grades for Wang Zixiu
+2025-04-03 08:34:03,859 - root - INFO - Processing student: Zong Yuling
+2025-04-03 08:34:06,066 - root - INFO - Successfully collected grades for Zong Yuling
+2025-04-03 08:34:06,066 - root - INFO - Processing student: Yang Zihan
+2025-04-03 08:34:08,216 - root - INFO - Successfully collected grades for Yang Zihan
+2025-04-03 08:34:08,216 - root - INFO - Processing student: Wang Yuchen
+2025-04-03 08:34:10,395 - root - INFO - Successfully collected grades for Wang Yuchen
+2025-04-03 08:34:10,395 - root - INFO - Processing student: Hu Yiyi
+2025-04-03 08:34:12,415 - root - INFO - Successfully collected grades for Hu Yiyi
+2025-04-03 08:34:12,415 - root - INFO - Processing student: Huang Xinwen
+2025-04-03 08:34:14,255 - root - INFO - Successfully collected grades for Huang Xinwen
+2025-04-03 08:34:14,255 - root - INFO - Processing student: Hu Kaifeng
+2025-04-03 08:34:16,048 - root - INFO - Successfully collected grades for Hu Kaifeng
+2025-04-03 08:34:16,048 - root - INFO - Processing student: Wu Haocheng
+2025-04-03 08:34:17,977 - root - INFO - Successfully collected grades for Wu Haocheng
+2025-04-03 08:34:17,978 - root - INFO - Processing student: Wu Haoming
+2025-04-03 08:34:19,898 - root - INFO - Successfully collected grades for Wu Haoming
+2025-04-03 08:34:19,898 - root - INFO - Processing student: Wang Leyu
+2025-04-03 08:34:22,137 - root - INFO - Successfully collected grades for Wang Leyu
+2025-04-03 08:34:22,137 - root - INFO - Processing student: Xu Xinyi
+2025-04-03 08:34:24,101 - root - INFO - Successfully collected grades for Xu Xinyi
+2025-04-03 08:34:24,102 - root - INFO - Processing student: Yang Zixuan
+2025-04-03 08:34:25,985 - root - INFO - Successfully collected grades for Yang Zixuan
+2025-04-03 08:34:25,985 - root - INFO - Processing student: Li Keyi
+2025-04-03 08:34:27,830 - root - INFO - Successfully collected grades for Li Keyi
+2025-04-03 08:34:27,831 - root - INFO - Processing student: Wu Yu
+2025-04-03 08:34:29,779 - root - INFO - Successfully collected grades for Wu Yu
+2025-04-03 08:34:29,779 - root - INFO - Processing student: Xu Fengchuan
+2025-04-03 08:34:32,408 - root - INFO - Successfully collected grades for Xu Fengchuan
+2025-04-03 08:34:32,408 - root - INFO - Processing student: Wu Huanzhen
+2025-04-03 08:34:34,693 - root - INFO - Successfully collected grades for Wu Huanzhen
+2025-04-03 08:34:34,693 - root - INFO - Processing student: Chang Jiu
+2025-04-03 08:34:36,651 - root - INFO - Successfully collected grades for Chang Jiu
+2025-04-03 08:34:36,651 - root - INFO - Processing student: Zhang Yuqiao
+2025-04-03 08:34:38,578 - root - INFO - Successfully collected grades for Zhang Yuqiao
+2025-04-03 08:34:38,578 - root - INFO - Generating Notion-friendly grades format
+2025-04-03 08:34:41,250 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/databases/1c49efeede7b801b8c8fe08440084dff/query "HTTP/1.1 200 OK"
+2025-04-03 08:34:42,672 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81b9-90cd-fa1fa9b9bab1 "HTTP/1.1 200 OK"
+2025-04-03 08:34:43,785 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81e8-9882-d7e1b70b9e8b "HTTP/1.1 200 OK"
+2025-04-03 08:34:44,388 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8198-b57c-f447861dc735 "HTTP/1.1 200 OK"
+2025-04-03 08:34:44,803 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8133-bc62-c42b176f1d6e "HTTP/1.1 200 OK"
+2025-04-03 08:34:45,352 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81b9-9a3a-f593ef75f6f5 "HTTP/1.1 200 OK"
+2025-04-03 08:34:46,612 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-813a-883d-dac1455721ea "HTTP/1.1 200 OK"
+2025-04-03 08:34:47,548 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81ef-82f9-c24e28757a29 "HTTP/1.1 200 OK"
+2025-04-03 08:34:48,992 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81e5-baf5-c227c706cd11 "HTTP/1.1 200 OK"
+2025-04-03 08:34:49,464 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81c7-99cf-df6c516c5d4a "HTTP/1.1 200 OK"
+2025-04-03 08:34:51,659 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81b9-a655-fd591d94a25a "HTTP/1.1 200 OK"
+2025-04-03 08:34:52,818 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-816b-97e0-e5a973c1acfc "HTTP/1.1 200 OK"
+2025-04-03 08:34:53,886 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81a6-9dfd-e60cc3ee759a "HTTP/1.1 200 OK"
+2025-04-03 08:34:54,916 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81b6-b3ff-ce2351262cfe "HTTP/1.1 200 OK"
+2025-04-03 08:34:55,370 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-819e-bf52-c2408edf1e30 "HTTP/1.1 200 OK"
+2025-04-03 08:34:57,584 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81f0-8f08-f6cfb9df6f26 "HTTP/1.1 200 OK"
+2025-04-03 08:34:59,145 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8177-88ab-e9b61ea6a687 "HTTP/1.1 200 OK"
+2025-04-03 08:35:00,194 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-816e-b512-e23aab7fe0e3 "HTTP/1.1 200 OK"
+2025-04-03 08:35:00,763 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8129-a2d6-e417dc721c3a "HTTP/1.1 200 OK"
+2025-04-03 08:35:01,571 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81cd-b307-d34caaacc23f "HTTP/1.1 200 OK"
+2025-04-03 08:35:02,811 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-812d-b863-e88679eec2f9 "HTTP/1.1 200 OK"
+2025-04-03 08:35:03,255 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8179-8e03-df6f6ce016b4 "HTTP/1.1 200 OK"
+2025-04-03 08:35:05,149 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8114-9ac6-d936e6d2c9da "HTTP/1.1 200 OK"
+2025-04-03 08:35:06,946 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8106-9a45-c5cd89d40dc1 "HTTP/1.1 200 OK"
+2025-04-03 08:35:07,646 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8171-b15f-fb68793e6d60 "HTTP/1.1 200 OK"
+2025-04-03 08:35:13,874 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8162-bcba-f33a40fe6c5a "HTTP/1.1 200 OK"
+2025-04-03 08:35:14,408 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8153-bdef-c32aaea583c1 "HTTP/1.1 200 OK"
+2025-04-03 08:35:20,004 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8158-9600-dbf837e996f5 "HTTP/1.1 200 OK"
+2025-04-03 08:35:20,466 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81cd-acbc-e9d737961112 "HTTP/1.1 200 OK"
+2025-04-03 08:35:21,041 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81b8-b367-ebf62c1b2be2 "HTTP/1.1 200 OK"
+2025-04-03 08:35:22,973 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8143-9723-e17c8e3ee876 "HTTP/1.1 200 OK"
+2025-04-03 08:35:23,398 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-811d-b366-ca90257a1a92 "HTTP/1.1 200 OK"
+2025-04-03 08:35:24,202 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8167-861a-f0d6fd3a4c02 "HTTP/1.1 200 OK"
+2025-04-03 08:35:27,483 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8181-982f-d6809254d0c8 "HTTP/1.1 200 OK"
+2025-04-03 08:35:28,465 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8112-9205-d9b20960544e "HTTP/1.1 200 OK"
+2025-04-03 08:35:30,349 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8100-b499-faaa25215501 "HTTP/1.1 200 OK"
+2025-04-03 08:35:31,032 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8108-84ff-e1719dd80c63 "HTTP/1.1 200 OK"
+2025-04-03 08:35:32,506 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81b6-a1e4-ecfb4734e226 "HTTP/1.1 200 OK"
+2025-04-03 08:35:35,479 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-814c-98b1-d42e78503566 "HTTP/1.1 200 OK"
+2025-04-03 08:35:37,236 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81a0-b460-dbd7c10ef380 "HTTP/1.1 200 OK"
+2025-04-03 08:35:38,738 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-813c-8043-f01adef307af "HTTP/1.1 200 OK"
+2025-04-03 08:35:40,866 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8144-a59e-eb2eb3d51344 "HTTP/1.1 200 OK"
+2025-04-03 08:35:44,044 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81d0-9ad1-f5e7f34a0581 "HTTP/1.1 200 OK"
+2025-04-03 08:35:45,501 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-812e-8caa-e20e8ce70489 "HTTP/1.1 200 OK"
+2025-04-03 08:35:46,554 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-8122-b1f3-ef825883f96b "HTTP/1.1 200 OK"
+2025-04-03 08:35:47,786 - httpx - INFO - HTTP Request: PATCH https://api.notion.com/v1/pages/1c99efee-de7b-81e9-a7e1-effd9438bccf "HTTP/1.1 200 OK"
+2025-04-03 08:35:48,344 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:35:49,250 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:35:51,025 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:35:52,242 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:35:52,763 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:35:53,434 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:35:53,989 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:35:54,573 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:35:55,271 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:35:58,998 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:35:59,573 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:00,492 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:01,173 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:02,019 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:03,321 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:26,226 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:27,588 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:28,349 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:33,445 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:35,042 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:36,025 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:36,924 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:41,618 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:42,247 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:47,160 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:48,444 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:48,973 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:49,505 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:50,130 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:51,370 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:52,010 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:52,532 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:53,130 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:54,306 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:55,155 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:55,655 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:57,727 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:36:58,985 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:37:00,173 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:37:01,483 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:37:02,730 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:37:04,860 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:37:05,442 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:37:14,612 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:37:15,145 - httpx - INFO - HTTP Request: POST https://api.notion.com/v1/pages "HTTP/1.1 200 OK"
+2025-04-03 08:37:15,149 - root - INFO - Grades collection completed at 2025-04-03 08:37:15.148890
+2025-04-03 08:37:15,149 - root - INFO - Duration: 0:04:27.533588
+2025-04-03 08:37:15,149 - root - INFO - Students processed: 45
+2025-04-03 08:37:15,149 - root - INFO - Records added: 0
