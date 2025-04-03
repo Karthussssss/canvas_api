@@ -32,12 +32,18 @@ class EnhancedEmailNotifier:
         # Load email configuration from environment variables
         self.sender_email = os.getenv("EMAIL_SENDER")
         self.sender_password = os.getenv("EMAIL_PASSWORD")
-        self.recipient_email = os.getenv("EMAIL_RECIPIENT")
+        
+        # Support for multiple recipients (comma-separated email addresses)
+        self.recipient_emails = [email.strip() for email in os.getenv("EMAIL_RECIPIENT", "").split(",") if email.strip()]
+        
+        # Support for CC recipients (comma-separated email addresses)
+        self.cc_emails = [email.strip() for email in os.getenv("EMAIL_CC", "").split(",") if email.strip()]
+        
         self.smtp_server = os.getenv("SMTP_SERVER", "smtp.gmail.com")
         self.smtp_port = int(os.getenv("SMTP_PORT", "587"))
         
         # Check if email is configured
-        self.is_configured = bool(self.sender_email and self.sender_password and self.recipient_email)
+        self.is_configured = bool(self.sender_email and self.sender_password and self.recipient_emails)
         
     def send_notification(self, subject, message_body, is_success=True):
         """Send an email notification with the provided subject and message."""
@@ -49,7 +55,11 @@ class EnhancedEmailNotifier:
             # Create message
             message = MIMEMultipart()
             message["From"] = self.sender_email
-            message["To"] = self.recipient_email
+            message["To"] = ", ".join(self.recipient_emails)
+            
+            # Add CC recipients if available
+            if self.cc_emails:
+                message["Cc"] = ", ".join(self.cc_emails)
             
             # Add current timestamp to subject
             timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -61,13 +71,20 @@ class EnhancedEmailNotifier:
             # Create a secure SSL context
             context = ssl.create_default_context()
             
+            # Get all recipients for sending
+            all_recipients = self.recipient_emails.copy()
+            if self.cc_emails:
+                all_recipients.extend(self.cc_emails)
+            
             # Connect to server and send email
             with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
                 server.starttls(context=context)
                 server.login(self.sender_email, self.sender_password)
                 server.send_message(message)
                 
-            print(f"Email notification sent to {self.recipient_email}")
+            recipient_str = ", ".join(self.recipient_emails)
+            cc_str = ", ".join(self.cc_emails) if self.cc_emails else "None"
+            print(f"Email notification sent to recipients: {recipient_str}, CC: {cc_str}")
             return True
             
         except Exception as e:
