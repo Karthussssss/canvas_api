@@ -5,6 +5,8 @@ from notion_processor.notion_main import main as process_notion
 from emails.notifier.email_notifier import EmailNotifier
 import sys
 import os
+import requests
+import json
 
 # Add the config directory to the path
 config_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config")
@@ -27,6 +29,44 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
+
+NOTION_TOKEN = "ntn_j9650042443oA4qz4hiuMkA9Wb8hIlT77BASn5E7Kzyezv"
+DATABASE_ID = "1cf23f2ff64b8072bba9cdb79ed3972a"
+
+headers = {
+    "Authorization": f"Bearer {NOTION_TOKEN}",  # Fixed space after Bearer
+    "Notion-Version": "2022-06-28",
+    "Content-Type": "application/json"
+}
+
+def get_pages():
+    url = f"https://api.notion.com/v1/databases/{DATABASE_ID}/query"
+    payload = {"page_size": 100}  # Fixed parameter name
+    
+    try:
+        response = requests.post(url, json=payload, headers=headers)
+        response.raise_for_status()  # Raise exception for bad status codes
+        data = response.json()
+        print(json.dumps(data, indent=2))
+        return data.get("results", [])
+    except requests.exceptions.RequestException as e:
+        print(f"Error making request to Notion API: {e}")
+        return []
+    except json.JSONDecodeError as e:
+        print(f"Error parsing JSON response: {e}")
+        return []
+
+def process_pages():
+    pages = get_pages()
+    for page in pages:
+        try:
+            page_id = page["id"]
+            props = page["properties"]
+            # Fixed property access - assuming "Course" is the correct property name
+            course = props.get("Course", {}).get("title", [{}])[0].get("text", {}).get("content", "No course name")
+            print(f"Page ID: {page_id}, Course: {course}")
+        except (KeyError, IndexError) as e:
+            print(f"Error processing page: {e}")
 
 def collect_grades():
     """Collect grades for all students"""

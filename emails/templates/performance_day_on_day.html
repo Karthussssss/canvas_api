@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .content {
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .summary-box {
+            background-color: white;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .alert-box {
+            background-color: white;
+            border-left: 4px solid #FF9800;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .warning-box {
+            background-color: white;
+            border-left: 4px solid #F44336;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            position: relative; /* For positioning */
+        }
+        th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .grade-a {
+            background-color: #E8F5E9;
+            font-weight: bold;
+        }
+        .grade-b {
+            background-color: #FFF9C4;
+        }
+        .grade-c-or-below {
+            background-color: #FFEBEE;
+        }
+        /* Trend arrow styling */
+        .trend-arrow {
+            display: inline-block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-left: 15px;
+            vertical-align: middle;
+        }
+        .trend-arrow.increase {
+            color: #4CAF50;
+        }
+        .trend-arrow.decrease {
+            color: #F44336;
+        }
+        .trend-arrow.neutral {
+            color: #9E9E9E;
+        }
+        /* Progress container */
+        .progress-container {
+            width: 80%;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .progress-bar {
+            height: 20px;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            font-weight: bold;
+            min-width: 30px; /* Ensure minimum width for small percentages */
+            position: relative; /* For positioning the text */
+        }
+        .progress-bar::after {
+            content: attr(data-percent);
+            position: absolute;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+        }
+        .footer {
+            background-color: #f1f1f1;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.8em;
+            color: #666;
+            border-radius: 0 0 8px 8px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+    
+        /* Styles for day-on-day changes */
+        .change-indicator {
+            font-size: 10px;
+            position: relative;
+            top: -5px;
+            right: -3px;
+            display: inline-block;
+        }
+        .increase {
+            color: #4CAF50;
+        }
+        .decrease {
+            color: #F44336;
+        }
+        .neutral {
+            color: #9E9E9E;
+        }
+        .new-badge {
+            position: static;
+            display: inline-block;
+            margin-left: 6px;
+            background-color: #f8d7da;
+            color: #dc3545;
+            border-radius: 4px;
+            font-size: 8px;
+            font-weight: bold;
+            padding: 1px 3px;
+            text-transform: uppercase;
+            vertical-align: middle;
+        }
+        .new-badge::before {
+            content: "new";
+        }
+        .at-risk-badge {
+            position: static;
+            display: inline-block;
+            margin-left: 6px;
+            background-color: #fff3cd;
+            color: #856404;
+            border-radius: 4px;
+            font-size: 8px;
+            font-weight: bold;
+            padding: 1px 3px;
+            text-transform: uppercase;
+            vertical-align: middle;
+        }
+        .at-risk-badge::before {
+            content: "at risk";
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Canvas Grades Day-on-Day Performance</h1>
+        <p>Run Time: {{ timestamp }}</p>
+    </div>
+    
+    <div class="content">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="{{ logo_base64 }}" alt="Beecoming Logo" style="max-width: 150px; height: auto;">
+    </div>
+    
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Students Processed</div>
+                <div class="stat-value">{{ students_processed }}</div>
+                <div>{{ students_success_rate }}% Success Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Average Score</div>
+                <div class="stat-value">{{ average_score }}
+                    {% if average_score_change > 0 %}
+                    <span class="change-indicator increase">+{{ average_score_change }}</span>
+                    {% elif average_score_change < 0 %}
+                    <span class="change-indicator decrease">{{ average_score_change }}</span>
+                    {% else %}
+                    <span class="change-indicator neutral">+0.0</span>
+                    {% endif %}
+                </div>
+                <div>Across All Courses</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">A Grade Achievement</div>
+                <div class="stat-value">{{ a_grade_percentage }}%
+                    {% if a_grade_change > 0 %}
+                    <span class="change-indicator increase">+{{ a_grade_change }}%</span>
+                    {% elif a_grade_change < 0 %}
+                    <span class="change-indicator decrease">{{ a_grade_change }}%</span>
+                    {% else %}
+                    <span class="change-indicator neutral">+0%</span>
+                    {% endif %}
+                </div>
+                <div>Across All Courses</div>
+            </div>
+        </div>
+        
+        <div class="summary-box">
+            <h2>Course Performance Summary</h2>
+            <p>Overall course performance with grade distribution and average scores.</p>
+            
+            <table>
+                <tr>
+                    <th>Course</th>
+                    <th>Students</th>
+                    <th>Avg. Score</th>
+                    <th>A Grades Distribution</th>
+                </tr>
+                
+                {% for course in courses %}
+                <tr>
+                    <td>{{ course.name|safe }}</td>
+                    <td>{{ course.student_count }}</td>
+                    <td>{{ course.avg_score }}%
+                        {% if course.score_change > 0 %}
+                        <span class="change-indicator increase">+{{ course.score_change }}</span>
+                        {% elif course.score_change < 0 %}
+                        <span class="change-indicator decrease">{{ course.score_change }}</span>
+                        {% else %}
+                        <span class="change-indicator neutral">+0.0</span>
+                        {% endif %}
+                    </td>
+                    <td style="position: relative;">
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: {{ course.a_grade_percent }}%; background-color: {{ course.color }};" data-percent="{{ course.a_grade_percent }}%"></div>
+                        </div>
+                        {% if course.a_grade_change > 0 %}
+                        <span class="trend-arrow increase" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">↑{{ course.a_grade_change }}%</span>
+                        {% elif course.a_grade_change < 0 %}
+                        <span class="trend-arrow decrease" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">↓{{ abs(course.a_grade_change) }}%</span>
+                        {% else %}
+                        <span class="trend-arrow neutral" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">→0%</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                
+            </table>
+        </div>
+        
+        <div class="alert-box">
+            <h2>Performance Concerns</h2>
+            <p>Students currently not achieving an A grade (below 90%):</p>
+            
+            <table>
+                <tr>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Current Score</th>
+                    <th>Required Improvement</th>
+                </tr>
+                
+                {% for student in underperforming_students %}
+                <tr>
+                    <td>{{ student.name }}
+                        {% if student.is_new %}
+                        <span class="new-badge"></span>
+                        {% endif %}
+                    </td>
+                    <td>{{ student.course }}</td>
+                    <td class="{{ student.grade_class }}">{{ student.score }}%
+                        {% if student.score_change > 0 %}
+                        <span class="change-indicator increase">+{{ student.score_change }}</span>
+                        {% elif student.score_change < 0 %}
+                        <span class="change-indicator decrease">{{ student.score_change }}</span>
+                        {% elif student.is_new %}
+                        {% else %}
+                        <span class="change-indicator neutral">+0.0</span>
+                        {% endif %}
+                    </td>
+                    <td>+{{ student.needed_improvement }}% needed for A</td>
+                </tr>
+                {% endfor %}
+                
+            </table>
+        </div>
+        
+        <div class="warning-box">
+            <h2>At-Risk Students</h2>
+            <p>Students at risk of dropping from A to B (90-92.5%):</p>
+            
+            <table>
+                <tr>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Current Score</th>
+                </tr>
+                
+                {% for student in at_risk_students %}
+                <tr>
+                    <td>{{ student.name }}
+                        {% if student.is_at_risk %}
+                        <span class="at-risk-badge"></span>
+                        {% endif %}
+                        {% if student.is_new %}
+                        <span class="new-badge"></span>
+                        {% endif %}
+                    </td>
+                    <td>{{ student.course }}</td>
+                    <td class="grade-a">{{ student.score }}%
+                        {% if student.score_change > 0 %}
+                        <span class="change-indicator increase">+{{ student.score_change }}</span>
+                        {% elif student.score_change < 0 %}
+                        <span class="change-indicator decrease">{{ student.score_change }}</span>
+                        {% elif student.is_new %}
+                        {% else %}
+                        <span class="change-indicator neutral">+0.0</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2>Top Performers</h2>
+            <p>Students with exceptional performance (above 95%):</p>
+            
+            <table>
+                <tr>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Current Score</th>
+                </tr>
+                
+                {% for student in top_performers %}
+                <tr>
+                    <td>{{ student.name }}
+                        {% if student.is_new %}
+                        <span class="new-badge"></span>
+                        {% endif %}
+                    </td>
+                    <td>{{ student.course }}</td>
+                    <td class="grade-a">{{ student.score }}%
+                        {% if student.score_change > 0 %}
+                        <span class="change-indicator increase">+{{ student.score_change }}</span>
+                        {% elif student.score_change < 0 %}
+                        <span class="change-indicator decrease">{{ student.score_change }}</span>
+                        {% elif student.is_new %}
+                        {% else %}
+                        <span class="change-indicator neutral">+0.0</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                
+            </table>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>This is an automated message from the Canvas API Academic Data Collector.</p>
+        <p>Powered by Beecoming Inc.</p>
+        <p>© {{ current_year }} Beecoming Inc.</p>
+    </div>
+</body>
+</html> 
