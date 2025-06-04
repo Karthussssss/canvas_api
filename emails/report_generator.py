@@ -80,8 +80,9 @@ def generate_email_html(grades_csv_path: str, template_path: str, output_path: s
         template_path: Path to the HTML template file
         output_path: Path to save the generated HTML file
     """
-    # Get logo path
-    logo_path = "/Users/karthusshang/Desktop/BCM Dev/canvas_api/emails/logo.png"
+    # Get logo path - using relative path based on current file location
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    logo_path = os.path.join(current_dir, "logo.png")
     logo_base64 = get_image_base64(logo_path)
     
     # Read grades data

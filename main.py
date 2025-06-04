@@ -161,6 +161,8 @@ def debug_student_mappings():
 def main():
     """Main entry point for Canvas API client."""
     
+    print("Starting main() function...")
+    
     start_time = datetime.now()
     print(f"\n--- Starting grades collection at {start_time} ---")
     logging.info(f"Starting grades collection at {start_time}")
@@ -176,17 +178,21 @@ def main():
     
     try:
         # Initialize update batch ID for this run
+        print("About to initialize batch...")
         batch_id = initialize_batch()
         print(f"Update Batch ID: {batch_id}")
         logging.info(f"Update Batch ID: {batch_id}")
         
         # Create credential manager
+        print("Creating credential manager...")
         manager = CredentialManager()
         
         # Initialize CSV handler
+        print("Initializing CSV handler...")
         csv_handler = CSVHandler(GRADES_CSV_PATH)
         
         # Get all student names
+        print("Getting student names...")
         student_names = manager.get_all_student_names()
         
         if not student_names:
